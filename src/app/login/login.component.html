@@ -1,0 +1,79 @@
+<div class="login-container">
+  <div class="form-column">
+    <mat-card class="login-card">
+      <mat-card-header>
+        <mat-card-title class="login-title">Iniciar Sesión</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form (submit)="onLogin()">
+          <mat-form-field class="login-input">
+            <input matInput placeholder="Correo Electrónico" name="identifier" [(ngModel)]="identifier" required>
+          </mat-form-field>
+
+          <mat-form-field class="login-input">
+            <input matInput type="password" placeholder="Contraseña" name="password" [(ngModel)]="password" required>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" class="login-button" type="submit">Ingresar</button>
+        </form>
+
+        <div class="register-link">
+          <a mat-button routerLink="/registrar-usuarios">Registrarse</a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<style>
+  .login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, rgba(0, 123, 255, 0.3), rgba(0, 123, 255, 0));
+  }
+
+  .form-column {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login-card {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background: white;
+  }
+
+  .login-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .login-input {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .login-button {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+  }
+
+  .register-link {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .register-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+</style>
