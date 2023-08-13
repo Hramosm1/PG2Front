@@ -1,51 +1,47 @@
+.login-container {
+  display: flex;
+  height: 100vh; /* Ajusta el alto según tu diseño */
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, rgba(0, 123, 255, 0.3), rgba(0, 123, 255, 0)); /* Degradado horizontal transparente */
+}
 
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(to right, rgba(0, 123, 255, 0.3), rgba(0, 123, 255, 0));
-  }
+.image-column {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  .form-column {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('src/assets/images/FondoLogin.jpg');
 
-  .login-card {
-    max-width: 400px;
-    width: 100%;
-    padding: 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    background: white;
-  }
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+}
 
-  .login-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
+.image-column img {
+  max-width: 100%;
+  max-height: 100%;
+}
 
-  .login-input {
-    width: 100%;
-    margin-bottom: 15px;
-  }
+.form-column {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .login-button {
-    width: 100%;
-    background-color: #007bff;
-    color: white;
-  }
+.login-card {
+  width: 80%; /* Ajusta el ancho del formulario según tu diseño */
+  max-width: 400px; /* Limita el ancho máximo */
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  .register-link {
-    text-align: center;
-    margin-top: 10px;
-  }
+h1.eve-personal {
+  display: flex;
+  align-items: center;
+  font-size: 36px; /* Tamaño de fuente más grande */
+  color: rgba(0, 255, 255, 0.7); /* Color rojo transparente */
+}
 
-  .register-link a {
-    color: #007bff;
-    text-decoration: none;
-  }

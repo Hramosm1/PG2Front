@@ -5,28 +5,27 @@
         <mat-card-title class="login-title">Registrar Usuario</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <form>
+        <form [formGroup]="registroForm">
           <mat-form-field class="login-input">
-            <input matInput placeholder="Nombre">
+            <input matInput formControlName="usuario" placeholder="Usuario">
           </mat-form-field>
 
           <mat-form-field class="login-input">
-            <input matInput placeholder="Apellido">
+            <input matInput formControlName="email" placeholder="Correo Electrónico">
           </mat-form-field>
 
           <mat-form-field class="login-input">
-            <input matInput placeholder="Correo Electrónico">
+            <input matInput type="password" formControlName="password" placeholder="Contraseña">
           </mat-form-field>
 
           <mat-form-field class="login-input">
-            <input matInput type="password" placeholder="Contraseña">
+            <mat-label>Rol</mat-label>
+            <mat-select formControlName="id_rol" placeholder="Seleccionar rol">
+              <mat-option *ngFor="let rol of roles" [value]="rol.id_rol">{{ rol.descripcion }}</mat-option>
+            </mat-select>
           </mat-form-field>
 
-          <mat-form-field class="login-input">
-            <input matInput type="password" placeholder="Confirmar Contraseña">
-          </mat-form-field>
-
-          <button mat-raised-button color="primary" class="login-button">Registrarse</button>
+          <button mat-raised-button color="primary" class="login-button" (click)="registrarUsuario()">Registrarse</button>
         </form>
 
         <div class="register-link">
