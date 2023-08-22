@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog'; // Importa MatDialog para mostrar diálogos modales
 import { RolDataSource, RolItem } from './rol-datasource';
 
 @Component({
@@ -16,11 +17,20 @@ export class RolComponent implements AfterViewInit {
   dataSource = new RolDataSource();
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name'];
+  displayedColumns = ['id', 'name','actions'];
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
+  }
+
+  view(row: RolItem): void {
+  }
+
+  edit(row: RolItem): void {
+  }
+
+  delete(row: RolItem): void {
   }
 }
