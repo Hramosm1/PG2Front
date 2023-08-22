@@ -23,6 +23,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { RolComponent } from './rol/rol.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -30,7 +34,8 @@ import { MatSelectModule } from '@angular/material/select';
     NavigationComponent,
     DashboardComponent,
     RegistrarUsuariosComponent,
-    LoginComponent
+    LoginComponent,
+    RolComponent
   ],
   imports: [
     BrowserModule,
@@ -50,6 +55,9 @@ import { MatSelectModule } from '@angular/material/select';
     HttpClientModule,
     ReactiveFormsModule,
     MatSelectModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   providers: [
     AuthService,

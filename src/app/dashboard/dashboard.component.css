@@ -1,5 +1,5 @@
 .grid-container {
-  margin: 20px;
+  margin: 10px 100px 20px 200px; /* Margen superior derecha inferior izquierda */
 }
 
 .dashboard-card {
