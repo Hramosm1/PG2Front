@@ -25,7 +25,12 @@ export class RolComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cargarRoles();
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      this.cargarRoles();
+    }
+
   }
 
   applyFilter(event: Event) {
