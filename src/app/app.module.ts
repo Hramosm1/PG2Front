@@ -27,6 +27,7 @@ import { RolComponent } from './rol/rol.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { EstadoEmpresaComponent } from './estado-empresa/estado-empresa.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MatSortModule } from '@angular/material/sort';
     DashboardComponent,
     RegistrarUsuariosComponent,
     LoginComponent,
-    RolComponent
+    RolComponent,
+    EstadoEmpresaComponent
   ],
   imports: [
     BrowserModule,
