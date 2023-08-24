@@ -13,7 +13,6 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class EstadoEmpresaComponent implements OnInit {
 
-
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   estadosDataSource: MatTableDataSource<any>;
@@ -28,9 +27,9 @@ export class EstadoEmpresaComponent implements OnInit {
   ngOnInit(): void {
     const token = localStorage.getItem('token');
 
-    // if (token) {
+    if (token) {
        this.cargarEstados();
-    // }
+    }
   }
 
   applyFilter(event: Event) {

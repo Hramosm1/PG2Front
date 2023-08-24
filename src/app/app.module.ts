@@ -28,6 +28,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { EstadoEmpresaComponent } from './estado-empresa/estado-empresa.component';
+import { EmpresaComponent } from './empresa/empresa.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { EstadoEmpresaComponent } from './estado-empresa/estado-empresa.componen
     RegistrarUsuariosComponent,
     LoginComponent,
     RolComponent,
-    EstadoEmpresaComponent
+    EstadoEmpresaComponent,
+    EmpresaComponent
   ],
   imports: [
     BrowserModule,
