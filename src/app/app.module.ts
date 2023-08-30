@@ -29,6 +29,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { EstadoEmpresaComponent } from './estado-empresa/estado-empresa.component';
 import { EmpresaComponent } from './empresa/empresa.component';
+import { ModulosPermisosComponent } from './modulos-permisos/modulos-permisos.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { EmpresaComponent } from './empresa/empresa.component';
     LoginComponent,
     RolComponent,
     EstadoEmpresaComponent,
-    EmpresaComponent
+    EmpresaComponent,
+    ModulosPermisosComponent
   ],
   imports: [
     BrowserModule,

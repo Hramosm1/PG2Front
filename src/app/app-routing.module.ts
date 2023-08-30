@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { RolComponent } from './rol/rol.component';
 import { EstadoEmpresaComponent } from './estado-empresa/estado-empresa.component';
 import { EmpresaComponent } from './empresa/empresa.component';
+import { ModulosPermisosComponent } from './modulos-permisos/modulos-permisos.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'rol', component: RolComponent},
   { path: 'estado-empresa', component: EstadoEmpresaComponent},
   { path: 'empresa', component: EmpresaComponent},
+  { path: 'modulos-permisos', component: ModulosPermisosComponent},
 ];
 
 @NgModule({

@@ -1,0 +1,42 @@
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px;
+}
+
+.mat-raised-button {
+  margin-right: 10px;
+}
+
+.content-container {
+  margin: 10px 100px 20px 200px; /* Margen superior derecha inferior izquierda */
+  display: flex; /* Cambio agregado para el diseño horizontal */
+}
+
+.table-container {
+  flex: 1; /* Ocupa un espacio igual en el contenedor horizontal */
+  margin: 0 10px; /* Espacio horizontal entre las tablas */
+  border-radius: 10px; /* Agregamos el borde redondeado */
+  overflow: hidden; /* Para que el contenido no sobresalga del borde redondeado */
+}
+
+.full-width-table {
+  width: 100%;
+  border-collapse: collapse; /* Agregado para mejorar el diseño de la tabla */
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #f2f2f2;
+}
+
+
