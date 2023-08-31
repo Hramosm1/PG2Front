@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from './../auth.service';
-import { Router } from '@angular/router'; // Importa el módulo Router
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class LoginComponent {
       (response) => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);
-          this.router.navigate(['/navigation']);
+          this.router.navigate(['/dashboard']);
         }
       },
       (error) => {

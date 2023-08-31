@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 export interface PeriodicElement {
   name: string;
@@ -24,6 +25,7 @@ export class ModulosComponent implements OnInit {
 
   modulosDataSource: MatTableDataSource<any>;
   modulos: any[] = [];
+  router = new Router();
 
   columnsModulos = ['id', 'name'];
 
@@ -36,8 +38,15 @@ export class ModulosComponent implements OnInit {
 
     if (token) {
       this.cargarModulos();
+    } else {
+      this.router.navigate(['login']);
     }
   }
+
+  applyFilter(event: Event) {
+  }
+
+  openRegisterDialog(){}
 
   cargarModulos(){
     const urlEstados = 'http://localhost:9200/modulo';

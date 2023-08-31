@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './../auth.service';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators'; // Importa map desde 'rxjs/operators'
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
 })
-export class NavigationComponent {
+export class NavigationComponent implements OnInit {
   isHandset$: Observable<boolean>;
 
   constructor(
@@ -23,10 +23,15 @@ export class NavigationComponent {
   }
 
   logout(): void {
-    // Limpiar el token de autenticación (adapta esto según cómo estés manejando el token)
     this.authService.clearAuthToken();
+    this.router.navigate(['/login']);
+  }
 
-    // Redirigir al usuario a la página de inicio de sesión
-    this.router.navigate(['/login']); // Cambia 'login' por la ruta de tu página de inicio de sesión
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      this.router.navigate(['login']);
+    }
   }
 }

@@ -1,16 +1,25 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit{
   private breakpointObserver = inject(BreakpointObserver);
-
+  router = new Router();
   /** Based on the screen size, switch from standard to one column per row */
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      this.router.navigate(['login']);
+    }
+  }
+
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
       if (matches) {

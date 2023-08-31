@@ -33,6 +33,8 @@ import { ModulosPermisosComponent } from './modulos-permisos/modulos-permisos.co
 import { ModulosComponent } from './modulos/modulos.component';
 import { PermisosComponent } from './permisos/permisos.component';
 import { ModPerComponent } from './mod-per/mod-per.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { UsuariosComponent } from './usuarios/usuarios.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { ModPerComponent } from './mod-per/mod-per.component';
     ModulosPermisosComponent,
     ModulosComponent,
     PermisosComponent,
-    ModPerComponent
+    ModPerComponent,
+    UsuariosComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +73,7 @@ import { ModPerComponent } from './mod-per/mod-per.component';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
+    FlexLayoutModule,
   ],
   providers: [
     AuthService,

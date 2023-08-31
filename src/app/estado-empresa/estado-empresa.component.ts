@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class EstadoEmpresaComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   estadosDataSource: MatTableDataSource<any>;
   estados: any[] = [];
+  router = new Router();
 
   displayedColumns = ['id', 'name','actions'];
 
@@ -29,6 +31,8 @@ export class EstadoEmpresaComponent implements OnInit {
 
     if (token) {
        this.cargarEstados();
+    } else {
+      this.router.navigate(['login']);
     }
   }
 

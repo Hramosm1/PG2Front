@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-modulos-permisos',
@@ -20,6 +21,7 @@ export class ModulosPermisosComponent implements OnInit {
   permisosDataSource: MatTableDataSource<any>;
   modulos: any[] = [];
   permisos: any[] = [];
+  router = new Router();
 
   columnsModulos = ['id', 'name'];
   columnsPermisos = ['id', 'rol', 'modulo'];
@@ -35,6 +37,8 @@ export class ModulosPermisosComponent implements OnInit {
     if (token) {
        this.cargarModulos();
        this.cargarPermisos();
+    } else {
+      this.router.navigate(['login']);
     }
   }
 

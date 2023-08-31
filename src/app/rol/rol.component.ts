@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-rol',
@@ -17,6 +18,7 @@ export class RolComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   rolesDataSource: MatTableDataSource<any>;
   roles: any[] = [];
+  router = new Router();
 
   displayedColumns = ['id', 'name','actions'];
 
@@ -29,6 +31,8 @@ export class RolComponent implements OnInit {
 
     if (token) {
       this.cargarRoles();
+    } else {
+      this.router.navigate(['login']);
     }
 
   }

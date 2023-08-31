@@ -5,10 +5,12 @@ table {
   flex: 1; /* Ocupa un espacio igual en el contenedor horizontal */
   margin: 0 10px; /* Espacio horizontal entre las tablas */
   overflow: hidden; /* Para que el contenido no sobresalga del borde redondeado */
+  display: flex;
+  flex-direction: column;
 }
 
 .full-width-table {
   width: 100%;
   border-collapse: collapse; /* Agregado para mejorar el diseño de la tabla */
+  overflow: auto;
 }
-

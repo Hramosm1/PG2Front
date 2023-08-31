@@ -4,6 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-empresa',
@@ -18,6 +19,7 @@ export class EmpresaComponent implements OnInit {
   empresasDataSource: MatTableDataSource<any>;
   empresas: any[] = [];
   estadosEmpresa: { [id: number]: string } = {};
+  router = new Router();
 
   displayedColumns = ['id', 'name', 'state', 'actions'];
 
@@ -31,6 +33,8 @@ export class EmpresaComponent implements OnInit {
     if (token) {
       this.cargarEstadosEmpresa();
       this.cargarEmpresas();
+    } else {
+        this.router.navigate(['login']);
     }
   }
 

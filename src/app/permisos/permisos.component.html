@@ -1,4 +1,10 @@
+<div class="button-container">
+  <button mat-raised-button color="primary" (click)="openRegisterDialog()">Registrar</button>
+</div>
 <div class="table-container mat-elevation-z8">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar">
+  </mat-form-field>
   <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="permisosDataSource">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
@@ -24,8 +30,8 @@
   <mat-paginator #paginatorPermisos
     [length]="permisos.length"
     [pageIndex]="0"
-    [pageSize]="10"
-    [pageSizeOptions]="[1, 10, 20]"
+    [pageSize]="8"
+    [pageSizeOptions]="[2, 6, 8]"
     [showFirstLastButtons]="true"
     aria-label="Select page">
 </mat-paginator>
