@@ -8,18 +8,25 @@ import { RolComponent } from './rol/rol.component';
 import { EstadoEmpresaComponent } from './estado-empresa/estado-empresa.component';
 import { EmpresaComponent } from './empresa/empresa.component';
 import { ModulosPermisosComponent } from './modulos-permisos/modulos-permisos.component';
+import { ModPerComponent } from './mod-per/mod-per.component';
+import { ModulosComponent } from './modulos/modulos.component';
+import { PermisosComponent } from './permisos/permisos.component';
+
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirecciona la ruta raíz a login
-  { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'navigation', component: NavigationComponent },
-  { path: 'registrar-usuarios', component: RegistrarUsuariosComponent },
+  { path: 'login', component: LoginComponent},
+  { path: 'dashboard', component: DashboardComponent},
+  { path: 'navigation', component: NavigationComponent},
+  { path: 'registrar-usuarios', component: RegistrarUsuariosComponent},
   { path: 'rol', component: RolComponent},
   { path: 'estado-empresa', component: EstadoEmpresaComponent},
   { path: 'empresa', component: EmpresaComponent},
   { path: 'modulos-permisos', component: ModulosPermisosComponent},
+  { path: 'mod-per', component: ModPerComponent},
+  { path: 'modulos', component: ModulosComponent},
+  { path: 'permisos', component: PermisosComponent},
 ];
 
 @NgModule({

@@ -30,6 +30,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { EstadoEmpresaComponent } from './estado-empresa/estado-empresa.component';
 import { EmpresaComponent } from './empresa/empresa.component';
 import { ModulosPermisosComponent } from './modulos-permisos/modulos-permisos.component';
+import { ModulosComponent } from './modulos/modulos.component';
+import { PermisosComponent } from './permisos/permisos.component';
+import { ModPerComponent } from './mod-per/mod-per.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,10 @@ import { ModulosPermisosComponent } from './modulos-permisos/modulos-permisos.co
     RolComponent,
     EstadoEmpresaComponent,
     EmpresaComponent,
-    ModulosPermisosComponent
+    ModulosPermisosComponent,
+    ModulosComponent,
+    PermisosComponent,
+    ModPerComponent
   ],
   imports: [
     BrowserModule,
