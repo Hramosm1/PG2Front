@@ -27,7 +27,7 @@ export class ModulosComponent implements OnInit {
   modulos: any[] = [];
   router = new Router();
 
-  columnsModulos = ['id', 'name'];
+  columnsModulos = ['id', 'name', 'actions'];
 
   constructor(private http: HttpClient){
     this.modulosDataSource = new MatTableDataSource<any>();
@@ -62,5 +62,9 @@ export class ModulosComponent implements OnInit {
       }
     );
   }
+
+  edit(id: any){}
+  view(id: any){}
+  delete(id: any){}
 
 }

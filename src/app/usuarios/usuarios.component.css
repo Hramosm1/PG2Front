@@ -1,0 +1,26 @@
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px;
+}
+
+.mat-raised-button {
+  margin-right: 10px;
+}
+
+.content-container {
+  margin: 10px 100px 20px 200px; /* Margen superior derecha inferior izquierda */
+}
+
+.full-width-table {
+  width: 100%;
+}
+
+.custom-input {
+  width: 100%; /* Ajusta el ancho según tus preferencias */
+  padding: 10px; /* Ajusta el espaciado interno según tus preferencias */
+  font-size: 14px; /* Ajusta el tamaño de fuente según tus preferencias */
+  border: 1px solid #ccc; /* Ajusta el borde según tus preferencias */
+  border-radius: 5px; /* Ajusta el radio de borde según tus preferencias */
+  box-sizing: border-box; /* Evita que el borde afecte el ancho total */
+}

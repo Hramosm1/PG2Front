@@ -11,6 +11,7 @@ import { ModulosPermisosComponent } from './modulos-permisos/modulos-permisos.co
 import { ModPerComponent } from './mod-per/mod-per.component';
 import { ModulosComponent } from './modulos/modulos.component';
 import { PermisosComponent } from './permisos/permisos.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
 
 
 
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'mod-per', component: ModPerComponent},
   { path: 'modulos', component: ModulosComponent},
   { path: 'permisos', component: PermisosComponent},
+  { path: 'usuarios', component: UsuariosComponent},
 ];
 
 @NgModule({

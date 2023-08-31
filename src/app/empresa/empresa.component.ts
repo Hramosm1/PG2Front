@@ -84,12 +84,13 @@ export class EmpresaComponent implements OnInit {
       title: 'Registrar Nueva Empresa',
       html: `
         <input type="text" id="descripcion" class="swal2-input" placeholder="Descripción" required>
-        <select id="id_estado" class="swal2-input">
+        <select id="id_estado" class="swal2-select custom-input">
           ${this.getEstadosOptions()} <!-- Genera las opciones del select desde estadosEmpresa -->
         </select>
       `,
       showCancelButton: true,
       confirmButtonText: 'Registrar',
+      customClass: 'custom-input',
       preConfirm: () => {
         const descripcion = (document.getElementById('descripcion') as HTMLInputElement).value;
         const id_estado = parseInt((document.getElementById('id_estado') as HTMLSelectElement).value);

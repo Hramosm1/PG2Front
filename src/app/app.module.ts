@@ -50,7 +50,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
     ModulosComponent,
     PermisosComponent,
     ModPerComponent,
-    UsuariosComponent
+    UsuariosComponent,
   ],
   imports: [
     BrowserModule,
