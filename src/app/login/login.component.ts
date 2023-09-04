@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from './../auth.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,14 @@ export class LoginComponent {
         }
       },
       (error) => {
-        console.error('Error de inicio de sesión:', error);
+        console.log(error.error);
+
+        Swal.fire({
+          title: 'Error al iniciar sesión',
+          text: error.error.error,
+          icon: 'warning',
+          confirmButtonColor: '#3085d6'
+        });
       }
     );
   }
