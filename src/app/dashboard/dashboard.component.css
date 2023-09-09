@@ -1,27 +1,18 @@
-.grid-container {
-  margin: 10px 100px 20px 200px; /* Margen superior derecha inferior izquierda */
+.container {
+  margin: 20px 30px 10px 200px; /*superior derecha inferior izquierda */
+  display: flex;
+   flex-wrap: wrap; /* Alinea div 1 y div 2 verticalmente */
 }
 
-.dashboard-card {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
+.box {
+   flex: 1;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5); /* Aplicar una sombra */
+  padding: 20px;
 }
 
-.more-button {
-  position: absolute;
-  top: 5px;
-  right: 10px;
+.third-box {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Aplicar una sombra */
+  padding: 20px;
+  flex-basis: 100%; /* Hace que el tercer div ocupe todo el ancho disponible */
+  margin-top: 10px; /* Agrega espacio entre el tercer div y los dos primeros */
 }
-
-.dashboard-card-content {
-  text-align: center;
-}
-
-/* #divChart{
-  display: block;
-  width: 400px;
-  height: 400px;
-} */
