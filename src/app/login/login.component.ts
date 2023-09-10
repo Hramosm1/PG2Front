@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from './../auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onLogin(): void {
-    this.authService.login(this.identifier, this.password).subscribe(
+    const encryptedPassword = CryptoJS.MD5(this.password).toString();
+    this.authService.login(this.identifier, encryptedPassword).subscribe(
       (response) => {
         if (response && response.token) {
           localStorage.setItem('token', response.token);

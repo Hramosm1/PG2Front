@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import * as CryptoJS from 'crypto-js';
 
 @Component({
   selector: 'app-usuarios',
@@ -115,7 +116,7 @@ export class UsuariosComponent implements OnInit {
     const body = {
       usuario: usuario,
       email: email,
-      password: password,
+      password: CryptoJS.MD5(password).toString(),
       id_rol: parseInt(id_rol)
     };
 
@@ -167,9 +168,9 @@ export class UsuariosComponent implements OnInit {
     Swal.fire({
       title: 'Editar Usuario',
       html: `
-        <input type="text" id="usuario" class="swal2-input" placeholder="Nuevo usuario">
-        <input type="text" id="email" class="swal2-input" placeholder="Nuevo email">
-        <input type="password" id="password" class="swal2-input" placeholder="Nuevo password">
+        <input type="text" id="usuario" class="swal2-input" value="${id.usuario}">
+        <input type="text" id="email" class="swal2-input" value="${id.email}">
+        <input type="password" id="password" class="swal2-input" placeholder="Nueva contraseña">
         <select id="rol" class="swal2-select custom-input">
           ${this.getRolesOptions()} <!-- Genera las opciones del select desde roles -->
         </select>

@@ -60,7 +60,7 @@ export class EstadoEmpresaComponent implements OnInit {
     Swal.fire({
       title: 'Editar estado',
       html: `
-        <input type="text" id="descripcion" class="swal2-input" placeholder="Nueva Descripción">
+        <input type="text" id="descripcion" class="swal2-input" value="${id.descripcion}">
       `,
       showCancelButton: true,
       confirmButtonText: 'Guardar',

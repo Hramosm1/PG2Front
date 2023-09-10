@@ -138,15 +138,110 @@ export class EmpresaComponent implements OnInit {
     });
   }
 
-  delete(_t51: any) {
-    throw new Error('Method not implemented.');
+  view(id: any): void {
+    const urlGet = `http://localhost:9200/empresa/${id}`;
+    this.http.get<any[]>(urlGet).subscribe(
+      (empresaDetails: any) => {
+        Swal.fire({
+          title: 'Detalles de la empresa',
+          html: `
+            <p><strong>ID:</strong> ${empresaDetails.id_empresa}</p>
+            <p><strong>Descripción:</strong> ${empresaDetails.descripcion}</p>
+            <p><strong>Estado:</strong> ${empresaDetails.estado_empresa.descripcion}</p>
+          `,
+          icon: 'success'
+        });
+      },
+      (error) => {
+        console.error('Error al obtener los detalles del item', error);
+        Swal.fire('Error', 'No se pudieron obtener los detalles del item', 'error');
+      }
+    );
   }
 
-  edit(_t51: any) {
-    throw new Error('Method not implemented.');
+  edit(id: any) {
+    Swal.fire({
+      title: 'Editar Rol',
+      html: `
+      <input type="text" id="descripcion" class="swal2-input" value="${id.descripcion}" required>
+      <select id="estado" class="swal2-select custom-input">
+          ${this.getEstadosOptions()}
+        </select>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      preConfirm: () => {
+        const descripcion = (document.getElementById('descripcion') as HTMLInputElement).value;
+        const estado = (document.getElementById('estado') as HTMLInputElement).checked ? 1 : 0;
+        return this.editEmpresaRequest(id.id_empresa, descripcion, estado);
+      }
+    });
   }
 
-  view(arg0: any) {
-    throw new Error('Method not implemented.');
+  editEmpresaRequest(id: number, descripcion: string, estado: number) {
+    console.log()
+    const urlUpdate = `http://localhost:9200/empresa/${id}`;
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.warn('No se encontró el token en el Local Storage.');
+      return false;
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `${token}`
+    });
+
+    const body = {
+      descripcion: descripcion,
+      id_estado: estado
+    };
+
+    return this.http.patch(urlUpdate, body, { headers }).toPromise()
+      .then(() => {
+        Swal.fire('Éxito', 'Empresa actualizada correctamente', 'success');
+        this.cargarEmpresas();
+        return true;
+      })
+      .catch((error) => {
+        console.error('Error al actualizar la Empresa', error);
+        Swal.fire('Error', 'No se pudo actualizar la empresa', 'error');
+        return false;
+      });
+  }
+
+  delete(id: any): void {
+    const urlDelete = `http://localhost:9200/empresa/${id.id_empresa}`;
+    const token = localStorage.getItem('token');
+
+    if(token){
+      const headers = new HttpHeaders({
+        Authorization: `${token}`
+      });
+
+      Swal.fire({
+        title: '¿Está seguro de eliminar la empresa?',
+        text: id.descripcion,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Sí, bórralo!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.http.delete(urlDelete, { headers }).subscribe(
+            () => {
+              Swal.fire('Éxito', 'Empresa eliminada correctamente', 'success');
+              this.cargarEmpresas();
+            },
+            (err) => {
+              console.error('Error al eliminar la empresa', err);
+              Swal.fire('Error', 'No se pudo eliminar la empresa', 'error');
+            }
+          );
+        }
+      })
+
+    }
   }
 }
