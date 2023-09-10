@@ -35,6 +35,7 @@ import { PermisosComponent } from './permisos/permisos.component';
 import { ModPerComponent } from './mod-per/mod-per.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UsuariosComponent } from './usuarios/usuarios.component';
+import { PlazasComponent } from './plazas/plazas.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
     PermisosComponent,
     ModPerComponent,
     UsuariosComponent,
+    PlazasComponent,
   ],
   imports: [
     BrowserModule,
