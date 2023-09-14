@@ -15,6 +15,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { PlazasComponent } from './plazas/plazas.component';
 import { MedioDifusionComponent } from './medio-difusion/medio-difusion.component'
 import { EstadoPublicacionComponent } from './estado-publicacion/estado-publicacion.component';
+import { PublicacionPlazaComponent } from './publicacion-plaza/publicacion-plaza.component';
 
 
 
@@ -34,7 +35,8 @@ const routes: Routes = [
   { path: 'usuarios', component: UsuariosComponent},
   { path: 'plazas', component: PlazasComponent},
   { path: 'medio-difusion', component: MedioDifusionComponent},
-  { path: 'estados-publicacion', component: EstadoPublicacionComponent}
+  { path: 'estados-publicacion', component: EstadoPublicacionComponent},
+  { path: 'publicacion-plaza', component: PublicacionPlazaComponent}
 ];
 
 @NgModule({
