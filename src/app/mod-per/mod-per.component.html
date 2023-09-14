@@ -1,29 +1,15 @@
 <app-navigation></app-navigation>
-<div class="grid-container">
-  <mat-grid-list cols="2" rowHeight="0.8:0.7">
-    <mat-grid-tile fxFlex>
-      <mat-card-header>
-        <mat-card-title>
-          <h1>Roles</h1>
-          <app-rol></app-rol>
-        </mat-card-title>
-      </mat-card-header>
-    </mat-grid-tile>
-
-    <mat-grid-tile fxFlex>
-      <mat-card-header>
-        <mat-card-title>
-          <h1>Modulos</h1>
-          <app-modulos></app-modulos>
-        </mat-card-title>
-      </mat-card-header>
-    </mat-grid-tile>
-
-    <mat-grid-tile fxFlex>
-      <mat-card-title>
-        <h1>Permisos por Rol</h1>
-        <app-permisos></app-permisos>
-      </mat-card-title>
-    </mat-grid-tile>
-  </mat-grid-list>
+<div class="container">
+  <div class="box">
+      <p>Roles</p>
+      <app-rol></app-rol>
+  </div>
+  <div class="box">
+      <p>Modulos</p>
+      <app-modulos></app-modulos>
+  </div>
+  <div class="third-box">
+    <p>Permisos por Rol</p>
+    <app-permisos></app-permisos>
+</div>
 </div>

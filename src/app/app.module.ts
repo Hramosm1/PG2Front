@@ -36,6 +36,9 @@ import { ModPerComponent } from './mod-per/mod-per.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { PlazasComponent } from './plazas/plazas.component';
+import { EstadoPublicacionComponent } from './estado-publicacion/estado-publicacion.component';
+import { MedioDifusionComponent } from './medio-difusion/medio-difusion.component';
+import { PublicacionPlazaComponent } from './publicacion-plaza/publicacion-plaza.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +56,9 @@ import { PlazasComponent } from './plazas/plazas.component';
     ModPerComponent,
     UsuariosComponent,
     PlazasComponent,
+    EstadoPublicacionComponent,
+    MedioDifusionComponent,
+    PublicacionPlazaComponent,
   ],
   imports: [
     BrowserModule,
