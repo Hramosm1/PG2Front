@@ -6,6 +6,17 @@ import Swal from 'sweetalert2';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+
+(<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
+
+// Define la interfaz para el documento PDF
+interface PdfDocument {
+  content: any[];
+  styles?: any;
+}
+
 @Component({
   selector: 'app-publicacion-plaza',
   templateUrl: './publicacion-plaza.component.html',
@@ -201,21 +212,22 @@ export class PublicacionPlazaComponent implements OnInit {
       })
       .catch((error) => {
         console.error('Error al registrar la publicacion', error);
-        Swal.fire('Error', 'No se pudo registrar la publicacion', 'error');
+        Swal.fire('Error', 'No se pudo registrar la publicacion', error);
         return false;
       });
   }
 
   view(id: any): void {
-    const urlGet = `http://localhost:9200/plaza/${id}`;
+    const urlGet = `http://localhost:9200/publicacion-plaza/${id}`;
     this.http.get<any[]>(urlGet).subscribe(
-      (plazaDetails: any) => {
+      (publicacionDetails: any) => {
         Swal.fire({
-          title: 'Detalles de la plaza',
+          title: 'Detalles de la publicacion',
           html: `
-            <p><strong>ID:</strong> ${plazaDetails.id_plaza}</p>
-            <p><strong>Descripción:</strong> ${plazaDetails.descripcion}</p>
-            <p><strong>Estado:</strong> ${plazaDetails.id_estado_plaza === 1 ? 'Activo' : 'Inactivo'}</p>
+            <p><strong>ID:</strong> ${publicacionDetails.id_publicacion_plaza}</p>
+            <p><strong>Plaza:</strong> ${publicacionDetails.plaza.descripcion}</p>
+            <p><strong>Medio de difusion:</strong> ${publicacionDetails.medio_difusion.descripcion}</p>
+            <p><strong>Estado de la publicacion:</strong> ${publicacionDetails.estado_publicacion.descripcion}</p>
           `,
           icon: 'success'
         });
@@ -231,21 +243,37 @@ export class PublicacionPlazaComponent implements OnInit {
     Swal.fire({
       title: 'Editar Rol',
       html: `
-      <input type="text" id="descripcion" class="swal2-input" value="${id.descripcion}" required>
-      <input type="checkbox" id="estado" class="swal2-checkbox" ${id.id_estado_plaza === 1 ? 'checked' : ''}> Activo
+      <label for="plazas">Seleccione una plaza:</label>
+        <select id="plaza" class="swal2-select custom-input">
+          ${this.getPlazasOptions()}
+        </select><br><br>
+        <label for="medios">Seleccione medio de difusion:</label>
+        <select id="medio" class="swal2-select custom-input">
+          ${this.getMediosOptions()}
+        </select><br><br>
+        <label for="estados">Seleccione el estado de la publicacion:</label>
+        <select id="estado" class="swal2-select custom-input">
+          ${this.getEstadosOptions()}
+        </select><br><br>
+        <label for="fechas">Fecha de registro:</label><br>
+        <input type="date" id="fecha" #startInput class="swal2-input custom-input" />
       `,
       showCancelButton: true,
       confirmButtonText: 'Guardar',
       preConfirm: () => {
-        const descripcion = (document.getElementById('descripcion') as HTMLInputElement).value;
-        const estado = (document.getElementById('estado') as HTMLInputElement).checked ? 1 : 0;
-        return this.editPlazaRequest(id.id_plaza, descripcion, estado);
+        const plaza = (document.getElementById('plaza') as HTMLInputElement).value;
+        const medio = (document.getElementById('medio') as HTMLInputElement).value;
+        const estado = (document.getElementById('estado') as HTMLInputElement).value;
+        const fecha = (document.getElementById('fecha') as HTMLInputElement).value;
+        // Agregar la hora "00:00:00" a la fecha
+        const fechaConHora = new Date(fecha).toISOString();
+        return this.editPlazaRequest(id.id_publicacion_plaza,parseInt(plaza), parseInt(medio), parseInt(estado), fechaConHora);
       }
     });
   }
 
-  editPlazaRequest(id: number, descripcion: string, estado: number) {
-    const urlUpdate = `http://localhost:9200/plaza/${id}`;
+  editPlazaRequest(id:number, plaza: number, medio: number, estado: number, fecha: string) {
+    const urlUpdate = `http://localhost:9200/publicacion-plaza/${id}`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -258,25 +286,27 @@ export class PublicacionPlazaComponent implements OnInit {
     });
 
     const body = {
-      descripcion: descripcion,
-      id_estado_plaza: estado
+      id_plaza: plaza,
+      id_medio_difusion: medio,
+      id_estado_publicacion: estado,
+      fecha_publicacion: fecha
     };
 
     return this.http.patch(urlUpdate, body, { headers }).toPromise()
       .then(() => {
-        Swal.fire('Éxito', 'Plaza actualizada correctamente', 'success');
+        Swal.fire('Éxito', 'Publicacion actualizada correctamente', 'success');
         this.cargarPublicaciones();
         return true;
       })
       .catch((error) => {
-        console.error('Error al actualizar la plaza', error);
-        Swal.fire('Error', 'No se pudo actualizar la plaza', 'error');
+        console.error('Error al actualizar la publicacion', error);
+        Swal.fire('Error', 'No se pudo actualizar la publicacion', 'error');
         return false;
       });
   }
 
   delete(id: any): void {
-    const urlDelete = `http://localhost:9200/plaza/${id.id_plaza}`;
+    const urlDelete = `http://localhost:9200/publicacion-plaza/${id.id_publicacion_plaza}`;
     const token = localStorage.getItem('token');
 
     if(token){
@@ -285,8 +315,8 @@ export class PublicacionPlazaComponent implements OnInit {
       });
 
       Swal.fire({
-        title: '¿Está seguro de eliminar la plaza?',
-        text: id.descripcion,
+        title: '¿Está seguro de eliminar la publicacion?',
+        text: id.plaza.descripcion,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -296,12 +326,12 @@ export class PublicacionPlazaComponent implements OnInit {
         if (result.isConfirmed) {
           this.http.delete(urlDelete, { headers }).subscribe(
             () => {
-              Swal.fire('Éxito', 'Plaza eliminada correctamente', 'success');
+              Swal.fire('Éxito', 'Publicacion eliminada correctamente', 'success');
               this.cargarPublicaciones();
             },
             (err) => {
-              console.error('Error al eliminar la plaza', err);
-              Swal.fire('Error', 'No se pudo eliminar la plaza', 'error');
+              console.error('Error al eliminar la publicacion', err);
+              Swal.fire('Error', 'No se pudo eliminar la publicacion', 'error');
             }
           );
         }
@@ -310,4 +340,33 @@ export class PublicacionPlazaComponent implements OnInit {
     }
   }
 
+  generatePDF() {
+
+    const docDefinition : any = {
+      content: [
+        {
+          text: 'Lista de Publicaciones',
+          style: 'header'
+        },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['auto', 'auto', 'auto', 'auto', 'auto'],
+            body: [
+              ['ID', 'Plaza', 'Medio de Difusión', 'Estado', 'Fecha Publicación'],
+              ...this.publicacion.map(row => [
+                row.id_publicacion_plaza,
+                row.plaza.descripcion,
+                row.medio_difusion.descripcion,
+                row.estado_publicacion.descripcion,
+                row.fecha_publicacion
+              ])
+            ]
+          }
+        }
+      ]
+    };
+    const pdf = pdfMake.createPdf(docDefinition);
+    pdf.open();
+  }
 }
