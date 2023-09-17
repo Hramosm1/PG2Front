@@ -51,7 +51,14 @@ export class PublicacionPlazaComponent implements OnInit {
 
     this.http.get<any[]>(urlEstados).subscribe(
       (response) => {
-        this.publicacion = response;
+        this.publicacion = response.map(item => {
+          const fechaISO = new Date(item.fecha_publicacion);
+          const day = fechaISO.getDate().toString().padStart(2, '0');
+          const month = (fechaISO.getMonth() + 1).toString().padStart(2, '0'); // Los meses se cuentan desde 0
+          const year = fechaISO.getFullYear();
+          const formattedDate = `${day}/${month}/${year}`;
+          return { ...item, fecha_publicacion: formattedDate };
+        });
         this.publicacionDataSource.data = this.publicacion;
         this.publicacionDataSource.paginator = this.paginator;
       },
@@ -59,8 +66,6 @@ export class PublicacionPlazaComponent implements OnInit {
         console.error('Error al cargar la publicacion', error);
       }
     );
-
-    console.log(this.publicacion);
   }
 
   cargarPlazas(){
@@ -114,35 +119,35 @@ export class PublicacionPlazaComponent implements OnInit {
     );
   }
 
-
-
   openRegisterDialog() {
-
-
     Swal.fire({
       title: 'Registrar Nueva publicacion',
       html: `
-        <label for="plaza">Seleccione una plaza:</label>
-        <select id="plazas" class="swal2-select custom-input">
+        <label for="plazas">Seleccione una plaza:</label>
+        <select id="plaza" class="swal2-select custom-input">
           ${this.getPlazasOptions()}
         </select><br><br>
-        <label for="medio">Seleccione medio de difusion:</label>
-        <select id="medios" class="swal2-select custom-input">
+        <label for="medios">Seleccione medio de difusion:</label>
+        <select id="medio" class="swal2-select custom-input">
           ${this.getMediosOptions()}
         </select><br><br>
-        <label for="estado">Seleccione el estado de la publicacion:</label>
-        <select id="estados" class="swal2-select custom-input">
+        <label for="estados">Seleccione el estado de la publicacion:</label>
+        <select id="estado" class="swal2-select custom-input">
           ${this.getEstadosOptions()}
         </select><br><br>
-        <label for="estado">Fecha de registro:</label><br>
+        <label for="fechas">Fecha de registro:</label><br>
         <input type="date" id="fecha" #startInput class="swal2-input custom-input" />
       `,
       showCancelButton: true,
       confirmButtonText: 'Registrar',
       preConfirm: () => {
-        const descripcion = (document.getElementById('descripcion') as HTMLInputElement).value;
-        const estado = (document.getElementById('estado') as HTMLInputElement).checked ? 1 : 0;
-        return this.registerPlaza(descripcion, estado);
+        const plaza = (document.getElementById('plaza') as HTMLInputElement).value;
+        const medio = (document.getElementById('medio') as HTMLInputElement).value;
+        const estado = (document.getElementById('estado') as HTMLInputElement).value;
+        const fecha = (document.getElementById('fecha') as HTMLInputElement).value;
+        // Agregar la hora "00:00:00" a la fecha
+        const fechaConHora = new Date(fecha).toISOString();
+        return this.registerPlaza(parseInt(plaza), parseInt(medio), parseInt(estado), fechaConHora);
       }
     });
   }
@@ -168,8 +173,8 @@ export class PublicacionPlazaComponent implements OnInit {
     }).join('');
   }
 
-  registerPlaza(descripcion: string, estado: number) {
-    const url = 'http://localhost:9200/plaza';
+  registerPlaza(plaza: number, medio: number, estado: number, fecha: string) {
+    const url = 'http://localhost:9200/publicacion-plaza';
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -182,19 +187,21 @@ export class PublicacionPlazaComponent implements OnInit {
     });
 
     const body = {
-      descripcion: descripcion,
-      id_estado_plaza: estado
+      id_plaza: plaza,
+      id_medio_difusion: medio,
+      id_estado_publicacion: estado,
+      fecha_publicacion: fecha
     };
 
     return this.http.post(url, body, { headers }).toPromise()
       .then(() => {
-        Swal.fire('Éxito', 'Plaza registrado correctamente', 'success');
+        Swal.fire('Éxito', 'Publicacion registrada correctamente', 'success');
         this.cargarPublicaciones();
         return true;
       })
       .catch((error) => {
-        console.error('Error al registrar la plaza', error);
-        Swal.fire('Error', 'No se pudo registrar la plaza', 'error');
+        console.error('Error al registrar la publicacion', error);
+        Swal.fire('Error', 'No se pudo registrar la publicacion', 'error');
         return false;
       });
   }

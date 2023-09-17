@@ -10,31 +10,31 @@
     <!-- Id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row">{{row.id_plaza}}</td>
+      <td mat-cell *matCellDef="let row">{{row.id_publicacion_plaza}}</td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="plaza">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Plaza</th>
-      <td mat-cell *matCellDef="let row">{{row.descripcion}}</td>
+      <td mat-cell *matCellDef="let row">{{row.plaza.descripcion}}</td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="medio">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Medio difusion</th>
-      <td mat-cell *matCellDef="let row">{{row.descripcion}}</td>
+      <td mat-cell *matCellDef="let row">{{row.medio_difusion.descripcion}}</td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="estado">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
-      <td mat-cell *matCellDef="let row">{{row.descripcion}}</td>
+      <td mat-cell *matCellDef="let row">{{row.estado_publicacion.descripcion}}</td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="fecha">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha publicacion</th>
-      <td mat-cell *matCellDef="let row">{{row.descripcion}}</td>
+      <td mat-cell *matCellDef="let row">{{row.fecha_publicacion}}</td>
     </ng-container>
 
     <!-- Actions Column -->
