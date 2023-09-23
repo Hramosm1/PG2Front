@@ -10,7 +10,7 @@ import { MatTableModule } from '@angular/material/table'; // Importa otros módu
 import { MatSortModule  } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 
-describe('EmpresaComponent', () => {
+describe('Entrevistas', () => {
   let component: EntrevistaComponent;
   let fixture: ComponentFixture<EntrevistaComponent>;
 
