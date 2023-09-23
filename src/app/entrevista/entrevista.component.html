@@ -2,24 +2,36 @@
   <button mat-fab extended color="primary" (click)="openRegisterDialog()">Registrar</button>
 </div>
 <div class="table-container mat-elevation-z8">
-  <table mat-table class="full-width-table" matSort aria-label="Elements">
+  <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="entrevistaDataSource">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row">{{row.id}}</td>
+      <td mat-cell *matCellDef="let row">{{row.id_entrevista}}</td>
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-      <td mat-cell *matCellDef="let row">{{row.name}}</td>
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+      <td mat-cell *matCellDef="let row">{{row.estado_entrevista.descripcion}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="plaza">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Plaza</th>
+      <td mat-cell *matCellDef="let row">{{row.plaza.descripcion}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+      <td mat-cell *matCellDef="let row">{{row.fecha_entrevista}}</td>
     </ng-container>
 
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button (click)="view(row.id_estado_empresa)" aria-label="View">
+        <button mat-icon-button (click)="view(row.id_entrevista)" aria-label="View">
           <mat-icon color="secondary">visibility</mat-icon>
         </button>
         <button mat-icon-button (click)="edit(row)" aria-label="Edit">
@@ -36,7 +48,7 @@
   </table>
 
   <mat-paginator #paginator
-      [length]="entrevistas.length"
+      [length]="entrevista.length"
       [pageIndex]="0"
       [pageSize]="10"
       [pageSizeOptions]="[5, 10, 20]"
