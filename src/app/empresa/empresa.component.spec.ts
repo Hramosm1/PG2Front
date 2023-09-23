@@ -24,7 +24,8 @@ describe('EmpresaComponent', () => {
         MatFormFieldModule,
         MatPaginatorModule,
         MatTableModule,
-        MatSortModule
+        MatSortModule,
+        MatInputModule
       ],
     }).compileComponents();
 
@@ -33,27 +34,31 @@ describe('EmpresaComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create the component', () => {
+  it('Creacion del componente Empresas', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should fetch empresas on ngOnInit', () => {
-  //   spyOn(component, 'cargarEmpresas').and.callThrough();
-  //   component.ngOnInit();
-  //   expect(component.cargarEmpresas).toHaveBeenCalled();
-  // });
+  it('Cargar empresas en ngOnInit', () => {
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjk1NDkzMzcyfQ.IgXAjCMFJ2OIEnK09mrjUiMu_jBG-0GF5VwRv5cSe8o'; // Ingresa manualmente el token aquí
 
-  // it('should apply filter when applyFilter is called', () => {
-  //   const event: any = {
-  //     target: {
-  //       value: 'example filter',
-  //     },
-  //   };
-  //   component.applyFilter(event);
-  //   expect(component.empresasDataSource.filter).toBe('example filter');
-  // });
+    spyOn(component, 'cargarEmpresas').and.callThrough();
 
-  // You can write more tests for other component methods and behavior
+    // Simula la obtención manual del token desde localStorage
+    spyOn(localStorage, 'getItem').withArgs('token').and.returnValue(token);
+
+    component.ngOnInit();
+    expect(component.cargarEmpresas).toHaveBeenCalled();
+  });
+
+  it('Aplicar filtro', () => {
+    const event: any = {
+      target: {
+        value: 'filtro',
+      },
+    };
+    component.applyFilter(event);
+    expect(component.empresasDataSource.filter).toBe('filtro');
+  });
 
   afterEach(() => {
     fixture.destroy();
