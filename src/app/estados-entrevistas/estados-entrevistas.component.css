@@ -1,0 +1,11 @@
+.container {
+  margin: 20px 30px 10px 200px; /*superior derecha inferior izquierda */
+  display: flex;
+  flex-wrap: wrap; /* Alinea div 1 y div 2 verticalmente */
+}
+
+.box {
+  flex: 1;
+  box-shadow: 0 0 0.8px rgba(0, 0, 0, 0.5); /* Aplicar una sombra */
+  padding: 10px;
+}

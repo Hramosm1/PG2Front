@@ -166,6 +166,7 @@ export class PermisosComponent implements OnInit{
   }
 
   getRolOptions() {
+    this.cargarRoles();
     return Object.keys(this.roles).map(id => {
       const numericId = parseInt(id); // Convierte la cadena a número
       return `<option value="${numericId}">${this.roles[numericId]}</option>`;
@@ -173,6 +174,7 @@ export class PermisosComponent implements OnInit{
   }
 
   getModuloOptions() {
+    this.cargarModulos();
     return Object.keys(this.modulos).map(id => {
       const numericId = parseInt(id); // Convierte la cadena a número
       return `<option value="${numericId}">${this.modulos[numericId]}</option>`;

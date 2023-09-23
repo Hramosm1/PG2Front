@@ -39,6 +39,9 @@ import { PlazasComponent } from './plazas/plazas.component';
 import { EstadoPublicacionComponent } from './estado-publicacion/estado-publicacion.component';
 import { MedioDifusionComponent } from './medio-difusion/medio-difusion.component';
 import { PublicacionPlazaComponent } from './publicacion-plaza/publicacion-plaza.component';
+import { EstEntrevistaComponent } from './est-entrevista/est-entrevista.component';
+import { EntrevistaComponent } from './entrevista/entrevista.component';
+import { EstadosEntrevistasComponent } from './estados-entrevistas/estados-entrevistas.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +62,9 @@ import { PublicacionPlazaComponent } from './publicacion-plaza/publicacion-plaza
     EstadoPublicacionComponent,
     MedioDifusionComponent,
     PublicacionPlazaComponent,
+    EstEntrevistaComponent,
+    EntrevistaComponent,
+    EstadosEntrevistasComponent,
   ],
   imports: [
     BrowserModule,
