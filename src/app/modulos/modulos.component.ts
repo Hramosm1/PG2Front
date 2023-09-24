@@ -178,12 +178,12 @@ export class ModulosComponent implements OnInit {
       preConfirm: () => {
         const descripcion = (document.getElementById('descripcion') as HTMLInputElement).value;
         const estado = (document.getElementById('estado') as HTMLInputElement).checked;
-        return this.registerRole(descripcion, estado);
+        return this.registerModulo(descripcion, estado);
       }
     });
   }
 
-  registerRole(descripcion: string, estado: boolean) {
+  registerModulo(descripcion: string, estado: boolean) {
     const url = 'http://localhost:9200/modulo';
     const token = localStorage.getItem('token');
 
