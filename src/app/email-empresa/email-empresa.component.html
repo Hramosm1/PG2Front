@@ -5,24 +5,30 @@
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar">
   </mat-form-field>
-  <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="rolesDataSource">
+  <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="emailDataSource">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row">{{row.id_rol}}</td>
+      <td mat-cell *matCellDef="let row">{{row.id_email_empresa}}</td>
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-      <td mat-cell *matCellDef="let row">{{row.descripcion}}</td>
+    <ng-container matColumnDef="empresa">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Empresa</th>
+      <td mat-cell *matCellDef="let row">{{row.empresa.descripcion}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let row">{{row.email_empresa}}</td>
     </ng-container>
 
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button (click)="view(row.id_rol)" aria-label="View">
+        <button mat-icon-button (click)="view(row.id_email_empresa)" aria-label="View">
           <mat-icon color="secondary">visibility</mat-icon>
         </button>
         <button mat-icon-button (click)="edit(row)" aria-label="Edit">
@@ -39,12 +45,10 @@
   </table>
 
   <mat-paginator #paginator
-      [length]="roles.length"
+      [length]="emails.length"
       [pageIndex]="0"
-      [pageSize]="8"
-      [pageSizeOptions]="[2, 6, 8]"
-      [showFirstLastButtons]="true"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]"
       aria-label="Select page">
-</mat-paginator>
+  </mat-paginator>
 </div>
-

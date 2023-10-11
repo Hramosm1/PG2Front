@@ -5,7 +5,7 @@
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar">
   </mat-form-field>
-  <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="rolesDataSource">
+  <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="emailDataSource">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
@@ -39,12 +39,10 @@
   </table>
 
   <mat-paginator #paginator
-      [length]="roles.length"
+      [length]="emails.length"
       [pageIndex]="0"
-      [pageSize]="8"
-      [pageSizeOptions]="[2, 6, 8]"
-      [showFirstLastButtons]="true"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]"
       aria-label="Select page">
-</mat-paginator>
+  </mat-paginator>
 </div>
-
