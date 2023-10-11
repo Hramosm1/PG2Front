@@ -18,7 +18,8 @@ import { EstadoPublicacionComponent } from './estado-publicacion/estado-publicac
 import { PublicacionPlazaComponent } from './publicacion-plaza/publicacion-plaza.component';
 import { EstadosEntrevistasComponent } from './estados-entrevistas/estados-entrevistas.component';
 import { TelEmaEmpresaComponent } from './tel-ema-empresa/tel-ema-empresa.component';
-import { TipoContratacionComponent } from './tipo-contratacion/tipo-contratacion.component'
+import { TipoContratacionComponent } from './tipo-contratacion/tipo-contratacion.component';
+import { PuestosComponent } from './puestos/puestos.component';
 
 
 
@@ -43,6 +44,7 @@ const routes: Routes = [
   { path: 'estados-entrevistas', component: EstadosEntrevistasComponent},
   { path: 'tel-ema-empresa', component: TelEmaEmpresaComponent},
   { path: 'tipo-contratacion', component: TipoContratacionComponent},
+  { path: 'puestos', component: PuestosComponent},
 ];
 
 @NgModule({

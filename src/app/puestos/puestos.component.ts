@@ -7,23 +7,23 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-tipo-contratacion',
-  templateUrl: './tipo-contratacion.component.html',
-  styleUrls: ['./tipo-contratacion.component.css']
+  selector: 'app-puestos',
+  templateUrl: './puestos.component.html',
+  styleUrls: ['./puestos.component.css']
 })
-export class TipoContratacionComponent implements OnInit {
+export class PuestosComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild('startInput') startInput: any;
-  tipoContratacionDataSource: MatTableDataSource<any>;
-  tipoContratacion: any[] = [];
+  puestosDataSource: MatTableDataSource<any>;
+  puestos: any[] = [];
   router = new Router();
-  empresas: { [id: number]: string } = {};
+  tipoContratacion: { [id: number]: string } = {};
 
-  displayedColumns = ['id', 'empresa', 'descripcion', 'actions'];
+  displayedColumns = ['id', 'empresa', 'puesto','tipoContratacion', 'salario', 'actions'];
 
   constructor(private http: HttpClient){
-    this.tipoContratacionDataSource = new MatTableDataSource<any>();
+    this.puestosDataSource = new MatTableDataSource<any>();
   }
 
   ngOnInit(): void {
@@ -31,7 +31,7 @@ export class TipoContratacionComponent implements OnInit {
 
     if (token) {
        this.cargarTipoContratacion();
-       this.cargarEmpresas();
+       this.cargarPuestos();
     } else {
       this.router.navigate(['login']);
     }
@@ -39,71 +39,74 @@ export class TipoContratacionComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.tipoContratacionDataSource.filter = filterValue.trim().toLowerCase();
+    this.puestosDataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  cargarTipoContratacion(){
-    const urlEstados = 'http://localhost:9200/tipoContratacion';
+  cargarPuestos(){
+    const urlEstados = 'http://localhost:9200/puesto';
 
     this.http.get<any[]>(urlEstados).subscribe(
       (response) => {
-        this.tipoContratacion = response;
-        this.tipoContratacionDataSource.data = this.tipoContratacion;
-        this.tipoContratacionDataSource.paginator = this.paginator; // Configurar el paginador
+        this.puestos = response;
+        this.puestosDataSource.data = this.puestos;
+        this.puestosDataSource.paginator = this.paginator; // Configurar el paginador
       },
       (error) => {
-        console.error('Error al cargar los tipos de contratacion', error);
+        console.error('Error al cargar los puestos', error);
       }
     );
   }
 
-  cargarEmpresas(){
-    const url = 'http://localhost:9200/empresa';
+  cargarTipoContratacion(){
+    const url = 'http://localhost:9200/tipoContratacion';
 
     this.http.get<any[]>(url).subscribe(
       (response) => {
         const Map: Record<number, string> = {};
-        response.forEach(empresa => {
-          Map[empresa.id_empresa] = empresa.descripcion;
+        response.forEach(tipoContratacion => {
+          Map[tipoContratacion.id_tipo_contratacion] = tipoContratacion.descripcion;
         });
-        this.empresas = Map;
+        this.tipoContratacion = Map;
       },
       (error) => {
-        console.error('Error al cargar empresas', error);
+        console.error('Error al cargar tipos de contratacion', error);
       }
     );
   }
 
   openRegisterDialog() {
     Swal.fire({
-      title: 'Registrar nuevo tipo de contratacion',
+      title: 'Registrar nuevo puesto',
       html: `
-        <label for="empresas">Seleccione una empresa:</label>
-        <select id="empresa" class="swal2-select custom-input">
-          ${this.getempresasOptions()}
+        <label for="tiposContratacion">Seleccione un tipo de contratacion:</label>
+        <select id="tipoContratacion" class="swal2-select custom-input">
+          ${this.gettipoContratacionOptions()}
         </select><br><br>
-        <label for="fechas">Tipo de contratacion:</label><br>
-        <input type="text" id="descripcion" class="swal2-input" placeholder="Descripción" required>
+        <label for="salarios">Salario Mensual:</label><br>
+        <input type="number" id="salario" class="swal2-input" placeholder="Salario" required><br>
+        <label for="salarios">Puesto:</label><br>
+        <input type="text" id="observacion" class="swal2-input" placeholder="Puesto" required>
       `,
       showCancelButton: true,
       confirmButtonText: 'Registrar',
       preConfirm: () => {
-        const empresa = (document.getElementById('empresa') as HTMLInputElement).value;
-        const descripcion = (document.getElementById('descripcion') as HTMLInputElement).value;
-        return this.registerTipoContratacion(parseInt(empresa), descripcion);
+        const tipoContratacion = (document.getElementById('tipoContratacion') as HTMLInputElement).value;
+        const salario = (document.getElementById('salario') as HTMLInputElement).value;
+        const observacion = (document.getElementById('observacion') as HTMLInputElement).value;
+        return this.registrarPuesto(parseInt(tipoContratacion), salario, observacion);
       }
     });
   }
 
-  getempresasOptions() {
-    return Object.keys(this.empresas).map(id => {
+  gettipoContratacionOptions() {
+    return Object.keys(this.tipoContratacion).map(id => {
       const numericId = parseInt(id); // Convierte la cadena a número
-      return `<option value="${numericId}">${this.empresas[numericId]}</option>`;
+      return `<option value="${numericId}">${this.tipoContratacion[numericId]}</option>`;
     }).join('');
   }
 
-  registerTipoContratacion(empresa: number, descripcion: string) {
-    const url = 'http://localhost:9200/tipoContratacion';
+  registrarPuesto(tipoContratacion: number, salario: string, observacion: string) {
+    const url = 'http://localhost:9200/puesto';
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -116,33 +119,36 @@ export class TipoContratacionComponent implements OnInit {
     });
 
     const body = {
-      id_empresa: empresa,
-      descripcion: descripcion,
+      id_tipo_contratacion: tipoContratacion,
+      salario_mensual: salario,
+      descripcion: observacion
     };
 
     return this.http.post(url, body, { headers }).toPromise()
       .then(() => {
         Swal.fire('Éxito', 'Registro exitoso', 'success');
-        this.cargarTipoContratacion();
+        this.cargarPuestos();
         return true;
       })
       .catch((error) => {
-        console.error('Error al registrar la publicacion', error);
+        console.error('Error al realizar el registro', error);
         Swal.fire('Error', 'No se pudo realizar el registro', error);
         return false;
       });
   }
 
   view(id: any): void {
-    const urlGet = `http://localhost:9200/tipoContratacion/${id}`;
+    const urlGet = `http://localhost:9200/puesto/${id}`;
     this.http.get<any[]>(urlGet).subscribe(
       (Details: any) => {
         Swal.fire({
           title: 'Detalles del tipo de contratacion',
           html: `
-            <p><strong>ID:</strong> ${Details.id_tipo_contratacion}</p>
-            <p><strong>Empresa:</strong> ${Details.empresa.descripcion}</p>
-            <p><strong>Tipo contratacion:</strong> ${Details.descripcion}</p>
+            <p><strong>ID:</strong> ${Details.id_puesto}</p>
+            <p><strong>Empresa:</strong> ${Details.tipo_contratacion.empresa.descripcion}</p>
+            <p><strong>Puesto:</strong> ${Details.descripcion}</p>
+            <p><strong>Tipo Contratacion:</strong> ${Details.tipo_contratacion.descripcion}</p>
+            <p><strong>Salario: Q</strong> ${Details.salario_mensual}</p>
           `,
           icon: 'success'
         });
@@ -156,22 +162,25 @@ export class TipoContratacionComponent implements OnInit {
 
   edit(id: any) {
     Swal.fire({
-      title: 'Editar Tipo contratacion',
+      title: 'Editar Rol',
       html: `
-        <label for="fechas">Tipo de contratacion:</label><br>
-        <input type="text" id="descripcion" class="swal2-input" value="${id.descripcion}" required>
+        <label for="salarios">Salario Mensual:</label><br>
+        <input type="number" id="salario" class="swal2-input" value="${id.salario_mensual}" required><br>
+        <label for="Puesto">Puesto:</label><br>
+        <input type="text" id="puesto" class="swal2-input" value="${id.descripcion}" required>
       `,
       showCancelButton: true,
       confirmButtonText: 'Guardar',
       preConfirm: () => {
-        const descripcion = (document.getElementById('descripcion') as HTMLInputElement).value;
-        return this.editPlazaRequest(id.id_tipo_contratacion,descripcion);
+        const salario = (document.getElementById('salario') as HTMLInputElement).value;
+        const puesto = (document.getElementById('puesto') as HTMLInputElement).value;
+        return this.editPlazaRequest(id.id_puesto,salario, puesto);
       }
     });
   }
 
-  editPlazaRequest(id:number, descripcion: string) {
-    const urlUpdate = `http://localhost:9200/tipoContratacion/${id}`;
+  editPlazaRequest(id:number, salario: string, puesto: string) {
+    const urlUpdate = `http://localhost:9200/puesto/${id}`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -184,13 +193,14 @@ export class TipoContratacionComponent implements OnInit {
     });
 
     const body = {
-      descripcion: descripcion
+      salario_mensual: salario,
+      descripcion: puesto
     };
 
     return this.http.patch(urlUpdate, body, { headers }).toPromise()
       .then(() => {
         Swal.fire('Éxito', 'Registro actualizado correctamente', 'success');
-        this.cargarTipoContratacion();
+        this.cargarPuestos();
         return true;
       })
       .catch((error) => {
@@ -201,7 +211,7 @@ export class TipoContratacionComponent implements OnInit {
   }
 
   delete(id: any): void {
-    const urlDelete = `http://localhost:9200/tipoContratacion/${id.id_tipo_contratacion}`;
+    const urlDelete = `http://localhost:9200/puesto/${id.id_puesto}`;
     const token = localStorage.getItem('token');
 
     if(token){
@@ -210,7 +220,7 @@ export class TipoContratacionComponent implements OnInit {
       });
 
       Swal.fire({
-        title: '¿Está seguro de eliminar el tipo de contratacion?',
+        title: '¿Está seguro de eliminar el puesto?',
         text: id.descripcion,
         icon: 'warning',
         showCancelButton: true,
@@ -222,7 +232,7 @@ export class TipoContratacionComponent implements OnInit {
           this.http.delete(urlDelete, { headers }).subscribe(
             () => {
               Swal.fire('Éxito', 'Registro eliminado correctamente', 'success');
-              this.cargarTipoContratacion();
+              this.cargarPuestos();
             },
             (err) => {
               console.error('Error al eliminar el registro', err);
