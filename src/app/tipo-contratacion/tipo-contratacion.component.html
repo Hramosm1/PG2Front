@@ -1,15 +1,16 @@
+<app-navigation></app-navigation>
 <div class="button-container">
   <button mat-fab extended color="primary" (click)="openRegisterDialog()">Registrar</button>
 </div>
-<div class="table-container mat-elevation-z8">
+<div class="mat-elevation-z8 content-container">
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar">
   </mat-form-field>
-  <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="empresaDataSource">
+  <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="tipoContratacionDataSource">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row">{{row.id_telefono_empresa}}</td>
+      <td mat-cell *matCellDef="let row">{{row.id_tipo_contratacion}}</td>
     </ng-container>
 
     <!-- Name Column -->
@@ -19,16 +20,16 @@
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="telefono">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</th>
-      <td mat-cell *matCellDef="let row">{{row.telefono}}</td>
+    <ng-container matColumnDef="descripcion">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripcion</th>
+      <td mat-cell *matCellDef="let row">{{row.descripcion}}</td>
     </ng-container>
 
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button (click)="view(row.id_telefono_empresa)" aria-label="View">
+        <button mat-icon-button (click)="view(row.id_tipo_contratacion)" aria-label="View">
           <mat-icon color="secondary">visibility</mat-icon>
         </button>
         <button mat-icon-button (click)="edit(row)" aria-label="Edit">
@@ -45,10 +46,11 @@
   </table>
 
   <mat-paginator #paginator
-      [length]="telefonos.length"
+      [length]="tipoContratacion.length"
       [pageIndex]="0"
       [pageSize]="10"
       [pageSizeOptions]="[5, 10, 20]"
+      [showFirstLastButtons]="true"
       aria-label="Select page">
-  </mat-paginator>
+</mat-paginator>
 </div>

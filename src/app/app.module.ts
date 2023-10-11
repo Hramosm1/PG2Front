@@ -45,6 +45,7 @@ import { EstadosEntrevistasComponent } from './estados-entrevistas/estados-entre
 import { TelefonoEmpresaComponent } from './telefono-empresa/telefono-empresa.component';
 import { EmailEmpresaComponent } from './email-empresa/email-empresa.component';
 import { TelEmaEmpresaComponent } from './tel-ema-empresa/tel-ema-empresa.component';
+import { TipoContratacionComponent } from './tipo-contratacion/tipo-contratacion.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { TelEmaEmpresaComponent } from './tel-ema-empresa/tel-ema-empresa.compon
     TelefonoEmpresaComponent,
     EmailEmpresaComponent,
     TelEmaEmpresaComponent,
+    TipoContratacionComponent,
   ],
   imports: [
     BrowserModule,
