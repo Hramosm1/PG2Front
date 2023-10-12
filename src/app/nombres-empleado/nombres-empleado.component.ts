@@ -144,28 +144,24 @@ export class NombresEmpleadoComponent implements OnInit {
     Swal.fire({
       title: 'Editar nombres',
       html: `
-          <label for="empleados">Selecciona un puesto:</label>
-          <select id="puesto" class="swal2-select custom-input">
-            ${this.getempleadosOptions()}
-          </select><br><br>
-          <label for="nombres">Nombre Obligatorio:</label><br>
-          <input type="text" id="nombre" class="swal2-input" value="${id.nombre}" required><br><br>
-          <label for="nombres">Apellido Obligatorio:</label><br>
-          <input type="text" id="apellido" class="swal2-input" value="${id.apellido}" required>
+          <p><strong>${id.empleado.nombre}</strong></p><br>
+          <label for="ordens">No Orde:</label><br>
+          <input type="number" id="orden" class="swal2-input" value="${id.no_orden}" required><br><br>
+          <label for="nombres">Nombre:</label><br>
+          <input type="text" id="nombre" class="swal2-input" value="${id.nombre}" required>
       `,
       showCancelButton: true,
       confirmButtonText: 'Guardar',
       preConfirm: () => {
-        const puesto = (document.getElementById('puesto') as HTMLInputElement).value;
+        const orden = (document.getElementById('orden') as HTMLInputElement).value;
         const nombre = (document.getElementById('nombre') as HTMLInputElement).value;
-        const apellido = (document.getElementById('apellido') as HTMLInputElement).value;
-        return this.editEmpleadoRequest(id.id_empleado, parseInt(puesto), nombre, apellido);
+        return this.editNombreEmpleadoRequest(id.id_nombres_empleados, parseInt(orden), nombre);
       }
     });
   }
 
-  editEmpleadoRequest(id: number, puesto: number, nombre: string, apellido: string) {
-    const urlUpdate = `http://localhost:9200/empleado/${id}`;
+  editNombreEmpleadoRequest(id: number, orden: number, nombre: string) {
+    const urlUpdate = `http://localhost:9200/nombreEmpleado/${id}`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -178,49 +174,47 @@ export class NombresEmpleadoComponent implements OnInit {
     });
 
     const body = {
-      id_puesto: puesto,
-      nombre: nombre,
-      apellido: apellido
+      no_orden: orden,
+      nombre: nombre
     };
 
     return this.http.patch(urlUpdate, body, { headers }).toPromise()
       .then(() => {
-        Swal.fire('Éxito', 'Empleado actualizado correctamente', 'success');
+        Swal.fire('Éxito', 'Nombre actualizado correctamente', 'success');
         this.cargarNombres();
         return true;
       })
       .catch((error) => {
-        console.error('Error al actualizar el empleado', error);
-        Swal.fire('Error', 'No se pudo actualizar el empleado', 'error');
+        console.error('Error al actualizar el nombre', error);
+        Swal.fire('Error', 'No se pudo actualizar el nombre', 'error');
         return false;
       });
   }
 
   view(id: any): void {
-    const urlGet = `http://localhost:9200/empleado/${id}`;
+    const urlGet = `http://localhost:9200/nombreEmpleado/${id}`;
     this.http.get<any[]>(urlGet).subscribe(
       (Details: any) => {
         Swal.fire({
-          title: 'Detalles del empleado',
+          title: 'Detalles del nombre',
           html: `
-            <p><strong>ID:</strong> ${Details.id_empleado}</p>
+            <p><strong>ID:</strong> ${Details.id_nombres_empleados}</p>
+            <p><strong>Primer Nombre:</strong> ${Details.empleado.nombre}</p>
+            <p><strong>No. Orden:</strong> ${Details.no_orden}</p>
             <p><strong>Nombre:</strong> ${Details.nombre}</p>
-            <p><strong>Apellido:</strong> ${Details.apellido}</p>
-            <p><strong>Puesto:</strong> ${Details.puesto.descripcion}</p>
-            <p><strong>Salario: Q</strong> ${Details.puesto.salario_mensual}</p>
           `,
           icon: 'success'
         });
       },
       (error) => {
-        console.error('Error al obtener los detalles del empleado', error);
-        Swal.fire('Error', 'No se pudieron obtener los detalles del empleado', 'error');
+        console.error('Error al obtener los detalles del item', error);
+        Swal.fire('Error', 'No se pudieron obtener los detalles del item', 'error');
       }
     );
   }
 
   delete(id: any): void {
-    const urlDelete = `http://localhost:9200/empleado/${id.id_empleado}`;
+    const urlDelete = `http://localhost:9200/nombreEmpleado/${id.id_nombres_empleados}`;
     const token = localStorage.getItem('token');
 
     if(token){
@@ -229,8 +223,8 @@ export class NombresEmpleadoComponent implements OnInit {
       });
 
       Swal.fire({
-        title: '¿Está seguro de eliminar el empleado?',
-        text: id.nombre +' '+ id.apellido,
+        title: '¿Está seguro de eliminar el nombre?',
+        text: id.nombre,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -240,12 +234,12 @@ export class NombresEmpleadoComponent implements OnInit {
         if (result.isConfirmed) {
           this.http.delete(urlDelete, { headers }).subscribe(
             () => {
-              Swal.fire('Éxito', 'Empleado eliminado correctamente', 'success');
+              Swal.fire('Éxito', 'Nombre eliminado correctamente', 'success');
               this.cargarNombres();
             },
             (err) => {
-              console.error('Error al eliminar el empleado', err);
-              Swal.fire('Error', 'No se pudo eliminar el empleado', 'error');
+              console.error('Error al eliminar el nombre', err);
+              Swal.fire('Error', 'No se pudo eliminar el nombre', 'error');
             }
           );
         }
