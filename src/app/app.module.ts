@@ -47,6 +47,14 @@ import { EmailEmpresaComponent } from './email-empresa/email-empresa.component';
 import { TelEmaEmpresaComponent } from './tel-ema-empresa/tel-ema-empresa.component';
 import { TipoContratacionComponent } from './tipo-contratacion/tipo-contratacion.component';
 import { PuestosComponent } from './puestos/puestos.component';
+import { DemograficosEmpleadoComponent } from './demograficos-empleado/demograficos-empleado.component';
+import { EmpleadoComponent } from './empleado/empleado.component';
+import { TipoDocumentoComponent } from './tipo-documento/tipo-documento.component';
+import { DocumentoComponent } from './documento/documento.component';
+import { TelefonoEmpleadoComponent } from './telefono-empleado/telefono-empleado.component';
+import { NombresEmpleadoComponent } from './nombres-empleado/nombres-empleado.component';
+import { EmailEmpleadoComponent } from './email-empleado/email-empleado.component';
+import { ApellidosEmpleadoComponent } from './apellidos-empleado/apellidos-empleado.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +83,14 @@ import { PuestosComponent } from './puestos/puestos.component';
     TelEmaEmpresaComponent,
     TipoContratacionComponent,
     PuestosComponent,
+    DemograficosEmpleadoComponent,
+    EmpleadoComponent,
+    TipoDocumentoComponent,
+    DocumentoComponent,
+    TelefonoEmpleadoComponent,
+    NombresEmpleadoComponent,
+    EmailEmpleadoComponent,
+    ApellidosEmpleadoComponent,
   ],
   imports: [
     BrowserModule,

@@ -18,14 +18,15 @@
       <a mat-list-item href="estados-publicacion">Estados publicacion</a>
       <a mat-list-item href="publicacion-plaza">Publicacion plazas</a>
       <a mat-list-item href="estados-entrevistas">Entrevistas</a>
-
     </mat-nav-list>
     <button
         mat-icon-button
         [matMenuTriggerFor]="menu"
         aria-label="Toggle user menu">
-        <mat-icon>account_circle</mat-icon>
+        <mat-icon>face</mat-icon>
+        {{identifier}}
       </button>
+
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="logout()">Cerrar Sesión</button>
       </mat-menu>

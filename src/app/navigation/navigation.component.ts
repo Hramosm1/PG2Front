@@ -11,6 +11,8 @@ import { map } from 'rxjs/operators'; // Importa map desde 'rxjs/operators'
 })
 export class NavigationComponent implements OnInit {
   isHandset$: Observable<boolean>;
+  identifier:  string[] = [];
+
 
   constructor(
     private authService: AuthService,
@@ -29,6 +31,15 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
+    const identificador = localStorage.getItem('identifier');
+
+    if (identificador !== null) {
+      this.identifier = [identificador];
+    } else {
+
+    }
+
+
 
     if (!token) {
       this.router.navigate(['login']);
