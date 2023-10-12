@@ -1,0 +1,18 @@
+.container {
+  margin: 20px 30px 10px 200px; /*superior derecha inferior izquierda */
+  display: flex;
+  flex-wrap: wrap; /* Alinea div 1 y div 2 verticalmente */
+}
+
+.box {
+  flex: 1;
+  box-shadow: 0 0 0.8px rgba(0, 0, 0, 0.5); /* Aplicar una sombra */
+  padding: 10px;
+}
+
+.third-box {
+  box-shadow: 0 0 0.8px rgba(0, 0, 0, 0.5); /* Aplicar una sombra */
+  padding: 10px;
+  flex-basis: 100%; /* Hace que el tercer div ocupe todo el ancho disponible */
+  margin-top: 10px; /* Agrega espacio entre el tercer div y los dos primeros */
+}
