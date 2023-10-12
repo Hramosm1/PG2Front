@@ -220,7 +220,7 @@ export class EmpleadoComponent implements OnInit {
   }
 
   delete(id: any): void {
-    const urlDelete = `http://localhost:9200/permiso/${id.id_permiso}`;
+    const urlDelete = `http://localhost:9200/empleado/${id.id_empleado}`;
     const token = localStorage.getItem('token');
 
     if(token){
@@ -229,8 +229,8 @@ export class EmpleadoComponent implements OnInit {
       });
 
       Swal.fire({
-        title: '¿Está seguro de eliminar el permiso?',
-        text: 'Rol: ' + id.rol.descripcion +' ' + ' Modulo: ' +id.puestos.descripcion,
+        title: '¿Está seguro de eliminar el empleado?',
+        text: id.nombre +' '+ id.apellido,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -240,12 +240,12 @@ export class EmpleadoComponent implements OnInit {
         if (result.isConfirmed) {
           this.http.delete(urlDelete, { headers }).subscribe(
             () => {
-              Swal.fire('Éxito', 'Permiso eliminado correctamente', 'success');
+              Swal.fire('Éxito', 'Empleado eliminado correctamente', 'success');
               this.cargarEmpleados();
             },
             (err) => {
-              console.error('Error al eliminar el permiso', err);
-              Swal.fire('Error', 'No se pudo eliminar el permiso', 'error');
+              console.error('Error al eliminar el empleado', err);
+              Swal.fire('Error', 'No se pudo eliminar el empleado', 'error');
             }
           );
         }
