@@ -13,7 +13,8 @@
   align-items: center;
   justify-content: center;
 
-  background: url('src/assets/images/FondoLogin.jpeg');
+   background: url('src/assets/images/FondoLogin.jpeg');
+  /* background: linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('src/assets/images/FondoLogin.jpeg'); */
 
    background-position: center;
    background-size: cover;
