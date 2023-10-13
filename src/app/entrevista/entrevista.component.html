@@ -24,7 +24,7 @@
     <!-- Name Column -->
     <ng-container matColumnDef="fecha">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
-      <td mat-cell *matCellDef="let row">{{row.fecha_entrevista}}</td>
+      <td mat-cell *matCellDef="let row">{{formatFechaHora(row.fecha_entrevista)}}</td>
     </ng-container>
 
     <!-- Actions Column -->

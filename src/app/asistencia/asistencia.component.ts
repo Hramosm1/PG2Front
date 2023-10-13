@@ -14,99 +14,110 @@ import { Router } from '@angular/router';
 export class AsistenciaComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild('startInput') startInput: any;
-  puestosDataSource: MatTableDataSource<any>;
-  puestos: any[] = [];
-  router = new Router();
-  tipoContratacion: { [id: number]: string } = {};
+  asistenciaDataSource: MatTableDataSource<any>;
+  empleados: { [id: number]: string } = {};
+  asistencias: any[] = [];
 
-  displayedColumns = ['id', 'empresa', 'puesto','tipoContratacion', 'salario', 'actions'];
+  router = new Router();
+
+  columnsAsistencia = ['id', 'nombre', 'apellido', 'puesto', 'empresa', 'actividad', 'fechaHora', 'actions'];
 
   constructor(private http: HttpClient){
-    this.puestosDataSource = new MatTableDataSource<any>();
+    this.asistenciaDataSource = new MatTableDataSource<any>();
   }
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
 
     if (token) {
-       this.cargarTipoContratacion();
-       this.cargarPuestos();
+       this.cargarAsistencias();
+       this.cargarEmpleados();
     } else {
       this.router.navigate(['login']);
-    }
+  }
   }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.puestosDataSource.filter = filterValue.trim().toLowerCase();
+    this.asistenciaDataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  cargarPuestos(){
-    const urlEstados = 'http://localhost:9200/puesto';
+  formatFechaHora(fechaISO: string): string {
+    const fecha = new Date(fechaISO);
+    const dia = fecha.getDate().toString().padStart(2, '0');
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const año = fecha.getFullYear();
+    const horas = fecha.getHours().toString().padStart(2, '0');
+    const minutos = fecha.getMinutes().toString().padStart(2, '0');
+
+    return `${dia}/${mes}/${año} ${horas}:${minutos}`;
+  }
+
+  cargarAsistencias(){
+    const urlEstados = 'http://localhost:9200/asistencia';
 
     this.http.get<any[]>(urlEstados).subscribe(
       (response) => {
-        this.puestos = response;
-        this.puestosDataSource.data = this.puestos;
-        this.puestosDataSource.paginator = this.paginator; // Configurar el paginador
+        this.asistencias = response;
+        this.asistenciaDataSource.data = this.asistencias;
+        this.asistenciaDataSource.paginator = this.paginator;
       },
       (error) => {
-        console.error('Error al cargar los puestos', error);
+        console.error('Error al cargar apellidos', error);
       }
     );
   }
 
-  cargarTipoContratacion(){
-    const url = 'http://localhost:9200/tipoContratacion';
+  cargarEmpleados(){
+    const urlempleados = 'http://localhost:9200/empleado';
 
-    this.http.get<any[]>(url).subscribe(
+    this.http.get<any[]>(urlempleados).subscribe(
       (response) => {
-        const Map: Record<number, string> = {};
-        response.forEach(tipoContratacion => {
-          Map[tipoContratacion.id_tipo_contratacion] = tipoContratacion.descripcion;
+        const empleadosMap: Record<number, string> = {};
+
+        response.forEach(empleado => {
+          empleadosMap[empleado.id_empleado] = `${empleado.nombre} ${empleado.apellido}`;
         });
-        this.tipoContratacion = Map;
+        this.empleados = empleadosMap;
       },
       (error) => {
-        console.error('Error al cargar tipos de contratacion', error);
+        console.error('Error al cargar empleados', error);
       }
     );
   }
 
-  openRegisterDialog() {
+  getempleadosOptions() {
+    this.cargarEmpleados();
+    return Object.keys(this.empleados).map(id => {
+      const numericId = parseInt(id);
+      return `<option value="${numericId}">${this.empleados[numericId]}</option>`;
+    }).join('');
+  }
+
+  openRegisterDialog(){
     Swal.fire({
-      title: 'Registrar nuevo puesto',
+      title: 'Registrar nueva asistencia',
       html: `
-        <label for="tiposContratacion">Seleccione un tipo de contratacion:</label>
-        <select id="tipoContratacion" class="swal2-select custom-input">
-          ${this.gettipoContratacionOptions()}
-        </select><br><br>
-        <label for="salarios">Salario Mensual:</label><br>
-        <input type="number" id="salario" class="swal2-input" placeholder="Salario" required><br>
-        <label for="salarios">Puesto:</label><br>
-        <input type="text" id="observacion" class="swal2-input" placeholder="Puesto" required>
+          <label for="empleados">Seleccione un empleado:</label>
+          <select id="empleado" class="swal2-select custom-input">
+            ${this.getempleadosOptions()}
+          </select><br><br>
+          <label for="actividades">Actividad:</label><br>
+          <input type="text" id="actividad" class="swal2-input" placeholder="Descripcion" required><br><br>
       `,
       showCancelButton: true,
       confirmButtonText: 'Registrar',
+      customClass: 'custom-input',
       preConfirm: () => {
-        const tipoContratacion = (document.getElementById('tipoContratacion') as HTMLInputElement).value;
-        const salario = (document.getElementById('salario') as HTMLInputElement).value;
-        const observacion = (document.getElementById('observacion') as HTMLInputElement).value;
-        return this.registrarPuesto(parseInt(tipoContratacion), salario, observacion);
+        const empleado = (document.getElementById('empleado') as HTMLInputElement).value;
+        const actividad = (document.getElementById('actividad') as HTMLInputElement).value;
+        return this.registerAsistencia(parseInt(empleado), actividad);
       }
     });
   }
 
-  gettipoContratacionOptions() {
-    return Object.keys(this.tipoContratacion).map(id => {
-      const numericId = parseInt(id); // Convierte la cadena a número
-      return `<option value="${numericId}">${this.tipoContratacion[numericId]}</option>`;
-    }).join('');
-  }
-
-  registrarPuesto(tipoContratacion: number, salario: string, observacion: string) {
-    const url = 'http://localhost:9200/puesto';
+  registerAsistencia(empleado: number, actividad: string) {
+    const urlCreate = `http://localhost:9200/asistencia`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -119,36 +130,89 @@ export class AsistenciaComponent implements OnInit {
     });
 
     const body = {
-      id_tipo_contratacion: tipoContratacion,
-      salario_mensual: salario,
-      descripcion: observacion
+      id_empleado: empleado,
+      actividad: actividad,
     };
 
-    return this.http.post(url, body, { headers }).toPromise()
+    return this.http.post(urlCreate, body, { headers }).toPromise()
       .then(() => {
-        Swal.fire('Éxito', 'Registro exitoso', 'success');
-        this.cargarPuestos();
+        Swal.fire('Éxito', 'Asistencia creada correctamente', 'success');
+        this.cargarAsistencias();
+        this.cargarEmpleados();
         return true;
       })
       .catch((error) => {
-        console.error('Error al realizar el registro', error);
-        Swal.fire('Error', 'No se pudo realizar el registro', error);
+        console.error('Error al crear la asistencia', error);
+        Swal.fire('Error', 'No se pudo registrar la asistencia', 'error');
+        return false;
+      });
+  }
+
+  // edit(id: any) {
+  //   Swal.fire({
+  //     title: 'Editar Apellido',
+  //     html: `
+  //         <p><strong>${id.empleado.nombre}</strong></p><br>
+  //         <label for="ordens">No Orde:</label><br>
+  //         <input type="number" id="orden" class="swal2-input" value="${id.no_orden}" required><br><br>
+  //         <label for="nombres">Apellido:</label><br>
+  //         <input type="text" id="apellido" class="swal2-input" value="${id.apellido}" required>
+  //     `,
+  //     showCancelButton: true,
+  //     confirmButtonText: 'Guardar',
+  //     preConfirm: () => {
+  //       const orden = (document.getElementById('orden') as HTMLInputElement).value;
+  //       const apellido = (document.getElementById('apellido') as HTMLInputElement).value;
+  //       return this.editApellidoEmpleadoRequest(id.id_apellidos_empleados, parseInt(orden), apellido);
+  //     }
+  //   });
+  // }
+
+  editApellidoEmpleadoRequest(id: number, orden: number, apellido: string) {
+    const urlUpdate = `http://localhost:9200/apellidosEmpleado/${id}`;
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      console.warn('No se encontró el token en el Local Storage.');
+      return false;
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `${token}`
+    });
+
+    const body = {
+      no_orden: orden,
+      apellido: apellido
+    };
+
+    return this.http.patch(urlUpdate, body, { headers }).toPromise()
+      .then(() => {
+        Swal.fire('Éxito', 'Apellido actualizado correctamente', 'success');
+        this.cargarAsistencias();
+        return true;
+      })
+      .catch((error) => {
+        console.error('Error al actualizar el apellido', error);
+        Swal.fire('Error', 'No se pudo actualizar el apellido', 'error');
         return false;
       });
   }
 
   view(id: any): void {
-    const urlGet = `http://localhost:9200/puesto/${id}`;
+    const urlGet = `http://localhost:9200/asistencia/${id}`;
     this.http.get<any[]>(urlGet).subscribe(
       (Details: any) => {
         Swal.fire({
-          title: 'Detalles del tipo de contratacion',
+          title: 'Detalles de la asistencia',
           html: `
-            <p><strong>ID:</strong> ${Details.id_puesto}</p>
-            <p><strong>Empresa:</strong> ${Details.tipo_contratacion.empresa.descripcion}</p>
-            <p><strong>Puesto:</strong> ${Details.descripcion}</p>
-            <p><strong>Tipo Contratacion:</strong> ${Details.tipo_contratacion.descripcion}</p>
-            <p><strong>Salario: Q</strong> ${Details.salario_mensual}</p>
+            <p><strong>ID:</strong> ${Details.id_asistencia}</p>
+            <p><strong>Nombre:</strong> ${Details.empleado.nombre}</p>
+            <p><strong>Apellido:</strong> ${Details.empleado.apellido}</p>
+            <p><strong>Puesto:</strong> ${Details.empleado.puesto.descripcion}</p>
+            <p><strong>Empresa:</strong> ${Details.empleado.puesto.tipo_contratacion.empresa.descripcion}</p>
+            <p><strong>Actividad:</strong> ${Details.actividad}</p>
+            <p><strong>Fecha y hora:</strong> ${this.formatFechaHora(Details.fecha_hora)}</p>
           `,
           icon: 'success'
         });
@@ -160,88 +224,38 @@ export class AsistenciaComponent implements OnInit {
     );
   }
 
-  edit(id: any) {
-    Swal.fire({
-      title: 'Editar Rol',
-      html: `
-        <label for="salarios">Salario Mensual:</label><br>
-        <input type="number" id="salario" class="swal2-input" value="${id.salario_mensual}" required><br>
-        <label for="Puesto">Puesto:</label><br>
-        <input type="text" id="puesto" class="swal2-input" value="${id.descripcion}" required>
-      `,
-      showCancelButton: true,
-      confirmButtonText: 'Guardar',
-      preConfirm: () => {
-        const salario = (document.getElementById('salario') as HTMLInputElement).value;
-        const puesto = (document.getElementById('puesto') as HTMLInputElement).value;
-        return this.editPlazaRequest(id.id_puesto,salario, puesto);
-      }
-    });
-  }
+  // delete(id: any): void {
+  //   const urlDelete = `http://localhost:9200/apellidosEmpleado/${id.id_apellidos_empleados}`;
+  //   const token = localStorage.getItem('token');
 
-  editPlazaRequest(id:number, salario: string, puesto: string) {
-    const urlUpdate = `http://localhost:9200/puesto/${id}`;
-    const token = localStorage.getItem('token');
+  //   if(token){
+  //     const headers = new HttpHeaders({
+  //       Authorization: `${token}`
+  //     });
 
-    if (!token) {
-      console.warn('No se encontró el token en el Local Storage.');
-      return false;
-    }
+  //     Swal.fire({
+  //       title: '¿Está seguro de eliminar el apellido?',
+  //       text: id.apellido,
+  //       icon: 'warning',
+  //       showCancelButton: true,
+  //       confirmButtonColor: '#3085d6',
+  //       cancelButtonColor: '#d33',
+  //       confirmButtonText: '¡Sí, bórralo!'
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //         this.http.delete(urlDelete, { headers }).subscribe(
+  //           () => {
+  //             Swal.fire('Éxito', 'Apellido eliminado correctamente', 'success');
+  //             this.cargarAsistencias();
+  //           },
+  //           (err) => {
+  //             console.error('Error al eliminar el apellido', err);
+  //             Swal.fire('Error', 'No se pudo eliminar el apellido', 'error');
+  //           }
+  //         );
+  //       }
+  //     })
 
-    const headers = new HttpHeaders({
-      Authorization: `${token}`
-    });
-
-    const body = {
-      salario_mensual: salario,
-      descripcion: puesto
-    };
-
-    return this.http.patch(urlUpdate, body, { headers }).toPromise()
-      .then(() => {
-        Swal.fire('Éxito', 'Registro actualizado correctamente', 'success');
-        this.cargarPuestos();
-        return true;
-      })
-      .catch((error) => {
-        console.error('Error al realizar la actualizacion', error);
-        Swal.fire('Error', 'No se pudo actualizar el registro', 'error');
-        return false;
-      });
-  }
-
-  delete(id: any): void {
-    const urlDelete = `http://localhost:9200/puesto/${id.id_puesto}`;
-    const token = localStorage.getItem('token');
-
-    if(token){
-      const headers = new HttpHeaders({
-        Authorization: `${token}`
-      });
-
-      Swal.fire({
-        title: '¿Está seguro de eliminar el puesto?',
-        text: id.descripcion,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '¡Sí, bórralo!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.http.delete(urlDelete, { headers }).subscribe(
-            () => {
-              Swal.fire('Éxito', 'Registro eliminado correctamente', 'success');
-              this.cargarPuestos();
-            },
-            (err) => {
-              console.error('Error al eliminar el registro', err);
-              Swal.fire('Error', 'No se pudo eliminar el registro', 'error');
-            }
-          );
-        }
-      })
-
-    }
-  }
+  //   }
+  // }
 }

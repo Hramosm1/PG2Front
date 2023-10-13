@@ -48,23 +48,26 @@ export class EntrevistaComponent implements OnInit {
     this.entrevistaDataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  formatFechaHora(fechaISO: string): string {
+    const fecha = new Date(fechaISO);
+    const dia = fecha.getDate().toString().padStart(2, '0');
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const año = fecha.getFullYear();
+    const horas = fecha.getHours().toString().padStart(2, '0');
+    const minutos = fecha.getMinutes().toString().padStart(2, '0');
+
+    return `${dia}/${mes}/${año} ${horas}:${minutos}`;
+  }
+
   cargarEntrevistas(){
     const urlEstados = 'http://localhost:9200/entrevista';
 
     this.http.get<any[]>(urlEstados).subscribe(
-      (response) => {
-        this.entrevista = response.map(item => {
-          const fechaISO = new Date(item.fecha_entrevista);
-          const day = fechaISO.getDate().toString().padStart(2, '0');
-          const month = (fechaISO.getMonth() + 1).toString().padStart(2, '0'); // Los meses se cuentan desde 0
-          const year = fechaISO.getFullYear();
-          const formattedDate = `${day}/${month}/${year}`;
-          return { ...item, fecha_entrevista: formattedDate };
-        });
-
-        this.entrevistaDataSource.data = this.entrevista;
-        this.entrevistaDataSource.paginator = this.paginator; // Configurar el paginador
-      },
+        (response) => {
+          this.entrevista = response;
+          this.entrevistaDataSource.data = this.entrevista;
+          this.entrevistaDataSource.paginator = this.paginator;
+        },
       (error) => {
         console.error('Error al cargar estados entrevista', error);
       }
