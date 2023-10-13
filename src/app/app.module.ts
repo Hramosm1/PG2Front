@@ -56,6 +56,7 @@ import { NombresEmpleadoComponent } from './nombres-empleado/nombres-empleado.co
 import { EmailEmpleadoComponent } from './email-empleado/email-empleado.component';
 import { ApellidosEmpleadoComponent } from './apellidos-empleado/apellidos-empleado.component';
 import { AsistenciaComponent } from './asistencia/asistencia.component';
+import { NavegacionComponent } from './navegacion/navegacion.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { AsistenciaComponent } from './asistencia/asistencia.component';
     EmailEmpleadoComponent,
     ApellidosEmpleadoComponent,
     AsistenciaComponent,
+    NavegacionComponent,
   ],
   imports: [
     BrowserModule,
