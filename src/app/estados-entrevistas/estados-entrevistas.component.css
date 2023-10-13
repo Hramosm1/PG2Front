@@ -1,5 +1,5 @@
 .container {
-  margin: 20px 30px 10px 200px; /*superior derecha inferior izquierda */
+  margin: 20px 50px 10px 250px; /*superior derecha inferior izquierda */
   display: flex;
   flex-wrap: wrap; /* Alinea div 1 y div 2 verticalmente */
 }

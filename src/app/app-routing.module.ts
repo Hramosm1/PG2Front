@@ -21,6 +21,7 @@ import { TelEmaEmpresaComponent } from './tel-ema-empresa/tel-ema-empresa.compon
 import { TipoContratacionComponent } from './tipo-contratacion/tipo-contratacion.component';
 import { PuestosComponent } from './puestos/puestos.component';
 import { DemograficosEmpleadoComponent } from './demograficos-empleado/demograficos-empleado.component';
+import { AsistenciaComponent } from './asistencia/asistencia.component';
 
 
 
@@ -47,7 +48,7 @@ const routes: Routes = [
   { path: 'tipo-contratacion', component: TipoContratacionComponent},
   { path: 'puestos', component: PuestosComponent},
   { path: 'demograficos', component: DemograficosEmpleadoComponent},
-
+  { path: 'asistencia', component: AsistenciaComponent},
 ];
 
 @NgModule({
