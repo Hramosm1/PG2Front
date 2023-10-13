@@ -64,7 +64,7 @@ export class PuestosComponent implements OnInit {
       (response) => {
         const Map: Record<number, string> = {};
         response.forEach(tipoContratacion => {
-          Map[tipoContratacion.id_tipo_contratacion] = tipoContratacion.descripcion;
+          Map[tipoContratacion.id_tipo_contratacion] = `${tipoContratacion.empresa.descripcion} ${tipoContratacion.descripcion}`;;
         });
         this.tipoContratacion = Map;
       },
