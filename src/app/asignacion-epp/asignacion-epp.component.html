@@ -1,40 +1,41 @@
+<app-navigation></app-navigation>
 <div class="button-container">
   <button mat-fab extended color="primary" (click)="openRegisterDialog()">Registrar</button>
 </div>
-<div class="table-container mat-elevation-z8">
+<div class="mat-elevation-z8 content-container">
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar">
   </mat-form-field>
-  <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="apellidosEmpleadosDataSource">
+  <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="asignacionEppDataSource">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row">{{row.id_apellidos_empleados}}</td>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="primerNombre">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Primer Nombre</th>
-      <td mat-cell *matCellDef="let row">{{row.empleado.nombre}}</td>
-    </ng-container>
-
-    <!-- Name Column -->
-    <ng-container matColumnDef="orden">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>No. Orden</th>
-      <td mat-cell *matCellDef="let row">{{row.no_orden}}</td>
+      <td mat-cell *matCellDef="let row">{{row.id_asignacion_epp}}</td>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+      <td mat-cell *matCellDef="let row">{{row.empleado.nombre}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="apellido">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido</th>
-      <td mat-cell *matCellDef="let row">{{row.apellido}}</td>
+      <td mat-cell *matCellDef="let row">{{row.empleado.apellido}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="equipo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Equipo</th>
+      <td mat-cell *matCellDef="let row">{{row.epp.equipo}}</td>
     </ng-container>
 
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button (click)="view(row.id_apellidos_empleados)" aria-label="View">
+        <button mat-icon-button (click)="view(row.id_asignacion_epp)" aria-label="View">
           <mat-icon color="secondary">visibility</mat-icon>
         </button>
         <button mat-icon-button (click)="edit(row)" aria-label="Edit">
@@ -46,11 +47,11 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columnsApellidos"></tr>
-    <tr mat-row *matRowDef="let row; columns: columnsApellidos;"></tr>
+    <tr mat-header-row *matHeaderRowDef="columnsAsignacion"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsAsignacion;"></tr>
   </table>
-  <mat-paginator #paginatorPermisos
-    [length]="apellidos.length"
+  <mat-paginator #paginator
+    [length]="asignacionEpp.length"
     [pageIndex]="0"
     [pageSize]="8"
     [pageSizeOptions]="[2, 6, 8]"

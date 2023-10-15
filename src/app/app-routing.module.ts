@@ -22,6 +22,10 @@ import { TipoContratacionComponent } from './tipo-contratacion/tipo-contratacion
 import { PuestosComponent } from './puestos/puestos.component';
 import { DemograficosEmpleadoComponent } from './demograficos-empleado/demograficos-empleado.component';
 import { AsistenciaComponent } from './asistencia/asistencia.component';
+import { EquipoProteccionPersonalComponent } from './equipo-proteccion-personal/equipo-proteccion-personal.component';
+import { AsignacionEppComponent } from './asignacion-epp/asignacion-epp.component';
+import { NominaComponent } from './nomina/nomina.component';
+
 
 
 
@@ -49,6 +53,9 @@ const routes: Routes = [
   { path: 'puestos', component: PuestosComponent},
   { path: 'demograficos', component: DemograficosEmpleadoComponent},
   { path: 'asistencia', component: AsistenciaComponent},
+  { path: 'epp', component: EquipoProteccionPersonalComponent},
+  { path: 'asignacion-epp', component: AsignacionEppComponent},
+  { path: 'nomina', component: NominaComponent},
 ];
 
 @NgModule({

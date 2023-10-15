@@ -6,24 +6,24 @@
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event)" placeholder="Filtrar">
   </mat-form-field>
-  <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="estadoPublicacionDataSource">
+  <table mat-table class="full-width-table" matSort aria-label="Elements" [dataSource]="eppDataSource">
     <!-- Id Column -->
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
-      <td mat-cell *matCellDef="let row">{{row.id_estado_publicacion}}</td>
+      <td mat-cell *matCellDef="let row">{{row.id_epp}}</td>
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Medio difusion</th>
-      <td mat-cell *matCellDef="let row">{{row.descripcion}}</td>
+    <ng-container matColumnDef="equipo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Equipo</th>
+      <td mat-cell *matCellDef="let row">{{row.equipo}}</td>
     </ng-container>
 
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
       <td mat-cell *matCellDef="let row">
-        <button mat-icon-button (click)="view(row.id_estado_publicacion)" aria-label="View">
+        <button mat-icon-button (click)="view(row.id_epp)" aria-label="View">
           <mat-icon color="secondary">visibility</mat-icon>
         </button>
         <button mat-icon-button (click)="edit(row)" aria-label="Edit">
@@ -35,16 +35,16 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-header-row *matHeaderRowDef="columnsEpp"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsEpp;"></tr>
   </table>
-
   <mat-paginator #paginator
-      [length]="estadosPublicacion.length"
-      [pageIndex]="0"
-      [pageSize]="10"
-      [pageSizeOptions]="[5, 10, 20]"
-      [showFirstLastButtons]="true"
-      aria-label="Select page">
+    [length]="epps.length"
+    [pageIndex]="0"
+    [pageSize]="8"
+    [pageSizeOptions]="[2, 6, 8]"
+    [showFirstLastButtons]="true"
+    aria-label="Select page">
 </mat-paginator>
 </div>
+

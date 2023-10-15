@@ -57,6 +57,9 @@ import { EmailEmpleadoComponent } from './email-empleado/email-empleado.componen
 import { ApellidosEmpleadoComponent } from './apellidos-empleado/apellidos-empleado.component';
 import { AsistenciaComponent } from './asistencia/asistencia.component';
 import { NavegacionComponent } from './navegacion/navegacion.component';
+import { EquipoProteccionPersonalComponent } from './equipo-proteccion-personal/equipo-proteccion-personal.component';
+import { AsignacionEppComponent } from './asignacion-epp/asignacion-epp.component';
+import { NominaComponent } from './nomina/nomina.component';
 
 @NgModule({
   declarations: [
@@ -95,6 +98,9 @@ import { NavegacionComponent } from './navegacion/navegacion.component';
     ApellidosEmpleadoComponent,
     AsistenciaComponent,
     NavegacionComponent,
+    EquipoProteccionPersonalComponent,
+    AsignacionEppComponent,
+    NominaComponent,
   ],
   imports: [
     BrowserModule,

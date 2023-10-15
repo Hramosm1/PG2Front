@@ -129,7 +129,7 @@ export class EntrevistaComponent implements OnInit {
         const estado = (document.getElementById('estado') as HTMLInputElement).value;
         const fecha = (document.getElementById('fecha') as HTMLInputElement).value;
         // Agregar la hora "00:00:00" a la fecha
-        const fechaConHora = new Date(fecha).toISOString();
+        const fechaConHora = new Date(fecha + 'T00:00:00').toISOString();
         return this.registerEntrevista(parseInt(plaza), parseInt(estado), fechaConHora);
       }
     });

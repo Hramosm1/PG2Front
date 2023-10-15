@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators'; // Importa map desde 'rxjs/operators'
 export class NavigationComponent implements OnInit {
   isHandset$: Observable<boolean>;
   identifier:  string[] = [];
+  isSubMenu1Open = false;
 
 
   constructor(
@@ -39,10 +40,13 @@ export class NavigationComponent implements OnInit {
 
     }
 
-
-
     if (!token) {
       this.router.navigate(['login']);
     }
+  }
+
+   // Método para alternar la visibilidad del submenú 1
+   toggleSubMenu1() {
+    this.isSubMenu1Open = !this.isSubMenu1Open;
   }
 }
