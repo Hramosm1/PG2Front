@@ -15,3 +15,12 @@
 .full-width-table {
   width: 100%;
 }
+
+.btn-swal {
+  background-color: #007bff; /* Cambia esto al color que desees */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+}

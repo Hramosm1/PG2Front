@@ -197,55 +197,6 @@ export class NominaComponent implements OnInit {
     return `${dia}/${mes}/${año}`;
   }
 
-  // edit(id: any) {
-  //   Swal.fire({
-  //     title: 'Editar nomina',
-  //     html: `
-  //         <p><strong>${id.empleado.nombre} ${id.empleado.apellido}</strong></p><br>
-  //         <label for="horaExtra">Horas extras:</label><br>
-  //         <input type="number" id="horaExtra" class="swal2-input" placeholder="Horas" required><br>
-  //         <label for="horaExtra">Bonificaciones:</label><br>
-  //         <input type="number" id="bonificacion" class="swal2-input" value="250" required><br>
-  //     `,
-  //     showCancelButton: true,
-  //     confirmButtonText: 'Guardar',
-  //     preConfirm: () => {
-  //       const equipo = (document.getElementById('equipo') as HTMLInputElement).value;
-  //       return this.editAsignacionEpp(id.id_asignacion_epp, equipo);
-  //     }
-  //   });
-  // }
-
-  // editAsignacionEpp(id: number, equipo: string) {
-  //   const urlUpdate = `http://localhost:9200/nomina/${id}`;
-  //   const token = localStorage.getItem('token');
-
-  //   if (!token) {
-  //     console.warn('No se encontró el token en el Local Storage.');
-  //     return false;
-  //   }
-
-  //   const headers = new HttpHeaders({
-  //     Authorization: `${token}`
-  //   });
-
-  //   const body = {
-  //     id_epp: equipo
-  //   };
-
-  //   return this.http.patch(urlUpdate, body, { headers }).toPromise()
-  //     .then(() => {
-  //       Swal.fire('Éxito', 'Asignacion actualizada correctamente', 'success');
-  //       this.cargarNomina();
-  //       return true;
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error al actualizar la asignacion', error);
-  //       Swal.fire('Error', 'No se pudo actualizar la asignacion', 'error');
-  //       return false;
-  //     });
-  // }
-
   view(id: any): void {
     const urlGet = `http://localhost:9200/nomina/${id}`;
     this.http.get<any[]>(urlGet).subscribe(
@@ -265,8 +216,31 @@ export class NominaComponent implements OnInit {
             <p><strong>IRTRA:</strong> Q ${Details.irtra}</p>
             <p><strong>Total a pagar:</strong> Q ${Details.totalPagar}</p>
           `,
-          icon: 'success'
+          icon: 'success',
+          showCancelButton: true,
+          showConfirmButton: true,
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Generar PDF',
+          showCloseButton: true,
+        }).then((result) => {
+          if (result.dismiss === Swal.DismissReason.cancel) {
+            // Si se hizo clic en el botón "Generar PDF" (Cancelar), enviar los datos a la función
+            this.generateBoletaPDF(
+              Details.id_nomina,
+              Details.empleado.nombre,
+              Details.empleado.apellido,
+              Details.fecha_inicio,
+              Details.fecha_fin,
+              Details.diasLaborados,
+              Details.horasExtras,
+              Details.bonificaciones,
+              Details.igss,
+              Details.irtra,
+              Details.totalPagar
+            );
+          }
         });
+        
       },
       (error) => {
         console.error('Error al obtener los detalles del item', error);
@@ -341,6 +315,58 @@ export class NominaComponent implements OnInit {
         }
       ],
       pageOrientation: 'landscape'
+    };
+    const pdf = pdfMake.createPdf(docDefinition);
+    pdf.open();
+  }
+  generateBoletaPDF(id: string, nombre: string, apellido: string, fechaInicio: string, fechaFin: string, diasLab: number, horasExtra: number, bonificaciones: number, igss: number, irtra: number, total: number ) {
+    const docDefinition : any = {
+      content: [
+         
+        {
+          text: 'Boleta de pago EVE PERSONAL',
+          style: 'header'
+        },
+        ' ',
+        ' ',
+        {
+          text: 'Empleado: ' +nombre + ' ' + apellido,
+          style: 'header'
+        },
+        ' ',
+        ' ',
+        {
+          table: {
+            headerRows: 2,
+            widths: ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'],
+            body: [
+              ['ID', 'Fecha Inicio', 'Fecha Fin', 'Dias laborados', 'Horas extras', 'Bonificacion', 'IGSS', 'IRTRA', 'Total a pagar'],
+              [
+                id,
+                this.formatFechaHora(fechaInicio),
+                this.formatFechaHora(fechaFin),
+                diasLab,
+                horasExtra,
+                bonificaciones,
+                igss,
+                irtra,
+               total
+              ]
+            ]
+          }
+        },
+        ' ',
+        ' ',
+        {
+          text: 'Firma:',
+        },
+        ' ',
+        ' ',
+        ' ',
+        ' ',
+        ' ',
+        '_____________________________________________________',
+      ]
     };
     const pdf = pdfMake.createPdf(docDefinition);
     pdf.open();
