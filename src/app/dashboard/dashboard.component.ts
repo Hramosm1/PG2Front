@@ -32,13 +32,13 @@ export class DashboardComponent implements OnInit{
     const yValues = [12000, 12500, 12500, 3000, 1000];
     const xValuesM = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
-    const myChart = new Chart("myChart", {
+    const empleadosEmpresa = new Chart("empleadosEmpresa", {
       type: 'bar',
       data: {
-          labels: ["Multiperfiles", "Bayer", "Unipharm", "Pepsi", "Toledo"],
+          labels: xValues,
           datasets: [{
               label: '# usuarios',
-              data: [12, 19, 3, 5, 2, 3],
+              data: yValues,
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit{
       }
     });
 
-    const myChart2 = new Chart("myChart2", {
+    const planillasMes = new Chart("planillasMes", {
       type: "line",
       data: {
         labels: xValues,
@@ -92,7 +92,7 @@ export class DashboardComponent implements OnInit{
       }
     });
 
-    const myChart3 = new Chart("myChart3", {
+    const novimientosPersonal = new Chart("novimientosPersonal", {
       type: "line",
       data: {
         labels: xValuesM,
